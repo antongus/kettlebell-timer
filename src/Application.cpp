@@ -27,7 +27,7 @@ Application::Application(int &argc, char **argv)
 {
 	setApplicationName(APP_NAME);
 	setApplicationVersion(APP_VERSION);
-	setApplicationDisplayName(tr("Гиревой таймер"));
+	setApplicationDisplayName(tr("Kettlebell timer"));
 	setOrganizationName(APP_ORGANIZATION);
 	configureDirs();
 //	configureLogger();
@@ -112,12 +112,12 @@ void Application::initTranslations()
 	QString locale = QLocale::system().name();
 	if (locale != "ru_RU")
 	{
-		qInfo() << "Loading english translation." << translator.load(":/tr/translation_en.qm");
+		qInfo() << "Loading english translation.";
 	}
 	else
 	{
 		qInfo() << "Loading russian translation.";
-		translator.load(":/tr/qtbase_ru.qm");
+		translator.load(":/tr/translation_ru.qm");
 	}
 	installTranslator(&translator);
 }
@@ -127,7 +127,6 @@ int Application::run()
 	qInfo() << APP_NAME << ", version " << APP_VERSION;
 
 	MainWindow w;
-	w.setWindowTitle(tr("Гиревой таймер"));
 	w.show();
 
 	return exec();
