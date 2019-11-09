@@ -88,7 +88,7 @@ void MainWindow::saveConfig()
 	QFile file { Application::instanse()->getConfigFileName(configFileName) };
 	if (!file.open(QIODevice::WriteOnly))
 	{
-		qCritical().noquote() << tr("MainWindow::saveConfig() - ошибка записи в файл %1.").arg(file.fileName());
+		qCritical().noquote() << tr("MainWindow::saveConfig() - error writing to file %1.").arg(file.fileName());
 		return;
 	}
 	QJsonObject jsonObject;
@@ -108,8 +108,6 @@ void MainWindow::editConfig()
 	}
 }
 
-
-/// подключить обработчики кнопок и меню
 void MainWindow::connectHandlers()
 {
 	connect(tbAbout, &QToolButton::clicked, [&]() {
@@ -169,12 +167,12 @@ void MainWindow::timerFunction()
 	{
 		if (stage == Stage::Idle)
 		{
-			pbStart->setText(tr("Стоп! (F2)"));
-			pbStart->setToolTip(tr("Остановить счёт"));
+			pbStart->setText(tr("Stop! (F2)"));
+			pbStart->setToolTip(tr("Stop exersise"));
 			pbStart->setIcon(QIcon(":/icons/process-stop.svg"));
 
 			preCounter = sbCountdown->value() * 1000;
-			auto minutes = cbTryMinutes->currentText().toInt();
+			auto minutes = sbRunTime->value();
 			if (!minutes)
 				minutes = 10;
 			counter = minutes * 60 * 1000;
@@ -184,7 +182,7 @@ void MainWindow::timerFunction()
 			if (metronomTicks)
 			{
 				metronomStep = counter / metronomTicks;
-				nextMetronomTicks = counter - metronomStep/2; // first tick in the middle of interval
+				nextMetronomTicks = counter - (metronomStep * 2) / 3; // first tick after 2/3 of interval
 			}
 
 			if (preCounter)
@@ -203,8 +201,8 @@ void MainWindow::timerFunction()
 		else
 		{
 			stage = Stage::Idle;
-			pbStart->setText(tr("Старт! (F2)"));
-			pbStart->setToolTip(tr("Начать счёт"));
+			pbStart->setText(tr("Start! (F2)"));
+			pbStart->setToolTip(tr("Start exersise"));
 			pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
 			displayTicks(0);
 		}

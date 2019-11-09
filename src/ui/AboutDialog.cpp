@@ -13,7 +13,6 @@ AboutDialog::AboutDialog(QWidget *parent) :
 	QDialog(parent)
 {
 	setupUi(this);
-	setWindowTitle(tr("О программе"));
 	textBrowser->viewport()->setAutoFillBackground(false);
 	InsertVersion();
 	setFixedSize(size());
@@ -23,5 +22,5 @@ AboutDialog::AboutDialog(QWidget *parent) :
 void AboutDialog::InsertVersion()
 {
 	auto cursor = textBrowser->document()->find("%%VERSION%%");
-	cursor.insertText(tr("версия %1").arg(QApplication::applicationVersion()));
+	cursor.insertText(tr("version: %1").arg(QApplication::applicationVersion()));
 }

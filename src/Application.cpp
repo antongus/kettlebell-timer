@@ -27,7 +27,7 @@ Application::Application(int &argc, char **argv)
 {
 	setApplicationName(APP_NAME);
 	setApplicationVersion(APP_VERSION);
-	setApplicationDisplayName(tr("Гиревой таймер"));
+	setApplicationDisplayName(tr("Kettlebell timer"));
 	setOrganizationName(APP_ORGANIZATION);
 	configureDirs();
 //	configureLogger();
@@ -127,7 +127,6 @@ int Application::run()
 	qInfo() << APP_NAME << ", version " << APP_VERSION;
 
 	MainWindow w;
-	w.setWindowTitle(tr("Гиревой таймер"));
 	w.show();
 
 	return exec();
