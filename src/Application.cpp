@@ -112,12 +112,12 @@ void Application::initTranslations()
 	QString locale = QLocale::system().name();
 	if (locale != "ru_RU")
 	{
-		qInfo() << "Loading english translation." << translator.load(":/tr/translation_en.qm");
+		qInfo() << "Loading english translation.";
 	}
 	else
 	{
 		qInfo() << "Loading russian translation.";
-		translator.load(":/tr/qtbase_ru.qm");
+		translator.load(":/tr/translation_ru.qm");
 	}
 	installTranslator(&translator);
 }

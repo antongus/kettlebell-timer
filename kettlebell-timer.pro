@@ -61,7 +61,7 @@ FORMS += \
 RESOURCES += \
     res/resource.qrc
 
-TRANSLATIONS = res/tr/translation_en.ts
+TRANSLATIONS = res/tr/translation_ru.ts
 
 !android {
 win32:RC_FILE = res/win32_appicon.rc

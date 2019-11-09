@@ -1,7 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>tr/qtbase_ru.qm</file>
-        <file>tr/translation_en.qm</file>
         <file>icons/about.svg</file>
         <file>icons/settings.svg</file>
         <file>icons/process-stop.svg</file>
@@ -11,5 +9,6 @@
         <file>kettlebell-is-cool.png</file>
         <file>icons/play.svg</file>
         <file>icons/kettlebell.svg</file>
+        <file>tr/translation_ru.qm</file>
     </qresource>
 </RCC>
