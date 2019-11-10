@@ -44,9 +44,7 @@ MainWindow::MainWindow(QWidget *parent)
 	metronomSound = new QSoundEffect(this);
 	startSound = new QSoundEffect(this);
 	loadSounds();
-
-	displayTicks(0);
-
+	stopExersise();
 	connectHandlers();
 
 	timer = new QTimer(this);
@@ -157,6 +155,51 @@ void MainWindow::loadSounds()
 	startSound->setSource(QUrl::fromLocalFile(dir.filePath("start.wav")));
 }
 
+void MainWindow::startExersise()
+{
+	pbStart->setText(tr("Stop! (F2)"));
+	pbStart->setToolTip(tr("Stop exersise"));
+	pbStart->setIcon(QIcon(":/icons/process-stop.svg"));
+
+	lcdAttempts->display("0");
+
+	preCounter = sbCountdown->value() * 1000;
+	auto minutes = sbRunTime->value();
+	if (!minutes)
+		minutes = 10;
+	counter = minutes * 60 * 1000;
+
+	attemptsCount = 0;
+	metronomTicks = cbMetronom->isChecked() ? sbMetronom->value() : 0;
+	if (metronomTicks)
+	{
+		metronomStep = counter / metronomTicks;
+		nextMetronomTicks = counter - (metronomStep * 2) / 3; // first tick after 2/3 of interval
+	}
+
+	if (preCounter)
+	{
+		stage = Stage::PreCount;
+		displayTicks(preCounter);
+		tickSound->play();
+		nextCountdownTicks = preCounter - 1000;
+	}
+	else
+	{
+		stage = Stage::Count;
+		displayTicks(counter);
+	}
+}
+
+void MainWindow::stopExersise()
+{
+	stage = Stage::Idle;
+	pbStart->setText(tr("Start! (F2)"));
+	pbStart->setToolTip(tr("Start exersise"));
+	pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
+	displayTicks(0);
+}
+
 void MainWindow::logMessage(QString const& message)
 {
 	qDebug() << message;
@@ -172,44 +215,11 @@ void MainWindow::timerFunction()
 	{
 		if (stage == Stage::Idle)
 		{
-			pbStart->setText(tr("Stop! (F2)"));
-			pbStart->setToolTip(tr("Stop exersise"));
-			pbStart->setIcon(QIcon(":/icons/process-stop.svg"));
-
-			preCounter = sbCountdown->value() * 1000;
-			auto minutes = sbRunTime->value();
-			if (!minutes)
-				minutes = 10;
-			counter = minutes * 60 * 1000;
-
-			attemptsCount = 0;
-			metronomTicks = cbMetronom->isChecked() ? sbMetronom->value() : 0;
-			if (metronomTicks)
-			{
-				metronomStep = counter / metronomTicks;
-				nextMetronomTicks = counter - (metronomStep * 2) / 3; // first tick after 2/3 of interval
-			}
-
-			if (preCounter)
-			{
-				stage = Stage::PreCount;
-				displayTicks(preCounter);
-				tickSound->play();
-				nextCountdownTicks = preCounter - 1000;
-			}
-			else
-			{
-				stage = Stage::Count;
-				displayTicks(counter);
-			}
+			startExersise();
 		}
 		else
 		{
-			stage = Stage::Idle;
-			pbStart->setText(tr("Start! (F2)"));
-			pbStart->setToolTip(tr("Start exersise"));
-			pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
-			displayTicks(0);
+			stopExersise();
 		}
 		startHit = false;
 		pbStart->setEnabled(true);

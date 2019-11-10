@@ -72,4 +72,6 @@ private:
 	void startClicked();
 	void displayTicks(int ticks);
 	void loadSounds();
+	void startExersise();
+	void stopExersise();
 };
