@@ -67,9 +67,11 @@ void MainWindow::loadStyleSheet()
 	else
 	{
 		QFile resFile(":/style/default.qss");
-		resFile.open(QFile::ReadOnly);
-		QString styleSheet = QString::fromLatin1(resFile.readAll());
-		setStyleSheet(styleSheet);
+		if (resFile.open(QFile::ReadOnly))
+		{
+			QString styleSheet = QString::fromLatin1(resFile.readAll());
+			setStyleSheet(styleSheet);
+		}
 	}
 }
 
