@@ -16,7 +16,14 @@ QGroupBox::title {
 
 QLCDNumber {
 	background-color: #444444;
-	color: orange;
 	border: 1px solid #222;
 	border-radius: 4px;
+}
+
+QLCDNumber#lcdTimer {
+	color: orange;
+}
+
+QLCDNumber#lcdAttempts {
+	color: lightgreen;
 }
