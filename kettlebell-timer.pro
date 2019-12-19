@@ -15,7 +15,7 @@ TEMPLATE = app
 
 ORGANIZATION = anton.b.gusev
 TEMPLATE = app
-VERSION = 0.11
+VERSION = 0.12
 
 CONFIG += c++17
 
@@ -45,6 +45,10 @@ SOURCES += \
     src/ui/AboutDialog.cpp \
     src/ui/ConfigDialog.cpp \
     src/Config.cpp \
+    src/ui/WorkoutEditor.cpp \
+    src/Workout.cpp \
+    src/WorkoutStep.cpp \
+    src/Workouts.cpp
 
 HEADERS += \
     src/ui/MainWindow.h \
@@ -52,11 +56,16 @@ HEADERS += \
     src/ui/AboutDialog.h \
     src/ui/ConfigDialog.h \
     src/Config.h \
+    src/ui/WorkoutEditor.h \
+    src/Workout.h \
+    src/WorkoutStep.h \
+    src/Workouts.h
 
 FORMS += \
     src/ui/MainWindow.ui \
     src/ui/AboutDialog.ui \
     src/ui/ConfigDialog.ui \
+    src/ui/WorkoutEditor.ui
 
 RESOURCES += \
     res/resource.qrc
