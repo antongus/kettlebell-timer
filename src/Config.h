@@ -24,6 +24,7 @@ struct Config
 	QString finishSoundFileName;
 	QString metronomSoundFileName;
 
+	void loadDefaults();
 	void fromJson(QJsonObject const& conf);
 	void toJson(QJsonObject& conf);
 };

@@ -26,6 +26,14 @@ const QString varFinishSoundFileName             = QStringLiteral("finishSound")
 const QString varMetronomSoundFileName           = QStringLiteral("metronomSound");
 }
 
+void Config::loadDefaults()
+{
+	countdownSoundFileName = "bink.wav";
+	startSoundFileName = "start.wav";
+	finishSoundFileName = "start.wav";
+	metronomSoundFileName = "tick.wav";
+}
+
 void Config::fromJson(QJsonObject const& conf)
 {
 	const QJsonObject soundsSettings = conf[sectionSounds].toObject();
