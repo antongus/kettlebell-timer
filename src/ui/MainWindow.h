@@ -12,12 +12,15 @@
 **/
 
 #pragma once
-#include "ui_MainWindow.h"
+
 #include <QMainWindow>
 #include <QLabel>
 #include <QTimer>
 #include <QSoundEffect>
+#include <memory>
 
+#include "ui_MainWindow.h"
+#include "Workouts.h"
 
 class MainWindow
         : public QMainWindow, private Ui::MainWindow
@@ -39,11 +42,13 @@ private:
 	static constexpr int timerStepMilliseconds { 10 };
 	static constexpr bool displayTens { false };
 
+	std::unique_ptr<Workouts> workouts { nullptr };
 	QTimer* timer { nullptr };
 
 	QSoundEffect* tickSound { nullptr };
 	QSoundEffect* metronomSound { nullptr };
 	QSoundEffect* startSound { nullptr };
+	QSoundEffect* finishSound { nullptr };
 
 	enum class Stage
 	{
@@ -68,10 +73,15 @@ private:
 	void loadConfig();
 	void saveConfig();
 	void editConfig();
+	void editWorkouts();
 	void connectHandlers();
 	void startClicked();
 	void displayTicks(int ticks);
 	void loadSounds();
 	void startExersise();
 	void stopExersise();
+
+	std::optional<Workout> getSelectedWorkout();
+	void loadWorkouts();
+	void saveWorkouts();
 };

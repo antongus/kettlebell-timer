@@ -323,8 +323,27 @@
        </item>
        <item>
         <widget class="QWidget" name="widget_2" native="true">
-         <layout class="QHBoxLayout" name="horizontalLayout_3">
-          <item>
+         <layout class="QGridLayout" name="gridLayout_2" columnstretch="0,0,3,0">
+          <property name="leftMargin">
+           <number>18</number>
+          </property>
+          <property name="rightMargin">
+           <number>18</number>
+          </property>
+          <item row="1" column="3">
+           <spacer name="horizontalSpacer_7">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>0</width>
+              <height>0</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item row="1" column="1">
            <spacer name="horizontalSpacer_6">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
@@ -337,84 +356,48 @@
             </property>
            </spacer>
           </item>
-          <item>
-           <widget class="QGroupBox" name="groupBox">
-            <property name="title">
-             <string>Exersise settings</string>
+          <item row="0" column="1">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Workout selection:</string>
             </property>
-            <layout class="QGridLayout" name="gridLayout" columnminimumwidth="0,64">
-             <item row="0" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Exersise time</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Countdown before start</string>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QSpinBox" name="sbCountdown">
-               <property name="suffix">
-                <string> sec</string>
-               </property>
-               <property name="value">
-                <number>10</number>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QSpinBox" name="sbMetronom">
-               <property name="maximum">
-                <number>999</number>
-               </property>
-               <property name="value">
-                <number>200</number>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QCheckBox" name="cbMetronom">
-               <property name="text">
-                <string>Metronome (total ticks per run)</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QSpinBox" name="sbRunTime">
-               <property name="suffix">
-                <string> min</string>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>10</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
            </widget>
           </item>
-          <item>
-           <spacer name="horizontalSpacer_7">
-            <property name="orientation">
-             <enum>Qt::Horizontal</enum>
-            </property>
-            <property name="sizeHint" stdset="0">
+          <item row="0" column="3">
+           <widget class="QToolButton" name="tbEditWorkouts">
+            <property name="minimumSize">
              <size>
-              <width>0</width>
-              <height>0</height>
+              <width>32</width>
+              <height>32</height>
              </size>
             </property>
-           </spacer>
+            <property name="toolTip">
+             <string>Select workout...</string>
+            </property>
+            <property name="text">
+             <string>...</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../res/resource.qrc">
+              <normaloff>:/icons/archive.svg</normaloff>:/icons/archive.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>32</width>
+              <height>32</height>
+             </size>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QLabel" name="labelSelectedWorkout">
+            <property name="text">
+             <string>---</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -497,10 +480,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>sbRunTime</tabstop>
-  <tabstop>sbCountdown</tabstop>
-  <tabstop>cbMetronom</tabstop>
-  <tabstop>sbMetronom</tabstop>
   <tabstop>pbStart</tabstop>
   <tabstop>tbSettings</tabstop>
   <tabstop>tbAbout</tabstop>

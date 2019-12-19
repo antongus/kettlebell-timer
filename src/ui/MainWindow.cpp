@@ -16,6 +16,7 @@
 #include "Application.h"
 #include "Config.h"
 #include "ConfigDialog.h"
+#include "WorkoutEditor.h"
 
 #include <QDebug>
 #include <QFileDialog>
@@ -35,14 +36,16 @@ MainWindow::MainWindow(QWidget *parent)
 	setupUi(this);
 
 	// hide settings (not fully implemented yet)
-	tbSettings->setVisible(false);
+//	tbSettings->setVisible(false);
 
 	loadStyleSheet();
 	loadConfig();
+	loadWorkouts();
 
 	tickSound = new QSoundEffect(this);
 	metronomSound = new QSoundEffect(this);
 	startSound = new QSoundEffect(this);
+	finishSound = new QSoundEffect(this);
 	loadSounds();
 	stopExersise();
 	connectHandlers();
@@ -110,6 +113,16 @@ void MainWindow::editConfig()
 	{
 		configDialog.GetConfig(config);
 		saveConfig();
+		loadSounds();
+	}
+}
+
+void MainWindow::editWorkouts()
+{
+	WorkoutEditor workoutEditor(this);
+	auto json = workouts->getJson();
+	if (workoutEditor.exec() == QDialog::Accepted)
+	{
 	}
 }
 
@@ -122,7 +135,7 @@ void MainWindow::connectHandlers()
 
 	connect(tbSettings, &QToolButton::clicked, this, &MainWindow::editConfig);
 	connect(pbStart, &QPushButton::clicked, this, &MainWindow::startClicked);
-	connect(cbMetronom, &QCheckBox::stateChanged, [&](){ sbMetronom->setEnabled(cbMetronom->isChecked()); });
+	connect(tbEditWorkouts, &QToolButton::clicked, this, &MainWindow::editWorkouts);
 }
 
 void MainWindow::startClicked()
@@ -152,9 +165,10 @@ void MainWindow::displayTicks(int ticks)
 void MainWindow::loadSounds()
 {
 	QDir dir(Application::instanse()->getSoundsDir());
-	tickSound->setSource(QUrl::fromLocalFile(dir.filePath("bink.wav")));
-	metronomSound->setSource(QUrl::fromLocalFile(dir.filePath("tick.wav")));
-	startSound->setSource(QUrl::fromLocalFile(dir.filePath("start.wav")));
+	tickSound->setSource(QUrl::fromLocalFile(dir.filePath(config.countdownSoundFileName)));
+	metronomSound->setSource(QUrl::fromLocalFile(dir.filePath(config.metronomSoundFileName)));
+	startSound->setSource(QUrl::fromLocalFile(dir.filePath(config.startSoundFileName)));
+	finishSound->setSource(QUrl::fromLocalFile(dir.filePath(config.finishSoundFileName)));
 }
 
 void MainWindow::startExersise()
@@ -165,14 +179,15 @@ void MainWindow::startExersise()
 
 	lcdAttempts->display("0");
 
-	preCounter = sbCountdown->value() * 1000;
-	auto minutes = sbRunTime->value();
+	preCounter = 10 /* sbCountdown->value() */ * 1000;
+	auto minutes = 10; //sbRunTime->value();
 	if (!minutes)
 		minutes = 10;
 	counter = minutes * 60 * 1000;
 
 	attemptsCount = 0;
-	metronomTicks = cbMetronom->isChecked() ? sbMetronom->value() : 0;
+//	metronomTicks = cbMetronom->isChecked() ? sbMetronom->value() : 0;
+	metronomTicks = 200;
 	if (metronomTicks)
 	{
 		metronomStep = counter / metronomTicks;
@@ -200,6 +215,40 @@ void MainWindow::stopExersise()
 	pbStart->setToolTip(tr("Start exersise"));
 	pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
 	displayTicks(0);
+}
+
+std::optional<Workout> MainWindow::getSelectedWorkout()
+{
+	return {};
+}
+
+static constexpr char const workoutsFileName[] { "workouts.json" };
+
+void MainWindow::loadWorkouts()
+{
+	if (!workouts)
+		workouts = std::make_unique<Workouts>();
+	QFile file { Application::instanse()->getConfigFileName(workoutsFileName) };
+	if (file.open(QIODevice::ReadOnly))
+	{
+		QByteArray buf = file.readAll();
+		auto doc = QJsonDocument::fromJson(buf);
+		workouts->setJson(doc.object());
+	}
+}
+
+void MainWindow::saveWorkouts()
+{
+	if (!workouts)
+		return;
+	QFile file { Application::instanse()->getConfigFileName(workoutsFileName) };
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		qCritical().noquote() << tr("MainWindow::saveWorkouts() - error writing to file %1.").arg(file.fileName());
+		return;
+	}
+	QJsonDocument jsonDocument(workouts->getJson().toObject());
+	file.write(jsonDocument.toJson());
 }
 
 void MainWindow::logMessage(QString const& message)
