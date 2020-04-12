@@ -3,7 +3,7 @@
 *
 *  Workout class - set or workout steps
 *
-*  Copyright 2019 Anton B. Gusev
+*  Copyright 2020 Anton B. Gusev
 *
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
@@ -74,6 +74,13 @@ std::shared_ptr<WorkoutStep> Workout::addStep(const QString& title)
 	step->setCaption(title);
 	steps.push_back(step);
 	return step;
+}
+
+void Workout::deleteStep(int id)
+{
+	auto findById = [&](auto& w) { return id == w->getId(); };
+	auto end = std::end(steps);
+	steps.erase(std::remove_if(std::begin(steps), end, findById), end);
 }
 
 /**

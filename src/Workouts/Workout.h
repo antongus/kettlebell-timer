@@ -3,7 +3,7 @@
 *
 *  Workout class - set or workout steps
 *
-*  Copyright 2019 Anton B. Gusev
+*  Copyright 2020 Anton B. Gusev
 *
 *  This program is free software; you can redistribute it and/or modify
 *  it under the terms of the GNU General Public License as published by
@@ -41,9 +41,10 @@ public:
 	QJsonValue getJson() const override;
 	void setJson(const QJsonValue& conf) override;
 
+	std::vector<std::shared_ptr<WorkoutStep>>& getSteps() { return steps; }
 	std::shared_ptr<WorkoutStep> findStep(int id);
 	std::shared_ptr<WorkoutStep> addStep(QString const& title);
-	bool deleteStep(std::shared_ptr<WorkoutStep> step);
+	void deleteStep(int id);
 
 public slots:
 	bool start();
