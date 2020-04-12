@@ -39,6 +39,10 @@ public:
 	int getPauseBetweenRepeats() const { return pauseBetweenRepeats; }
 
 	void setCaption(QString value) { caption = value; }
+	void setDelayBeforeStart(int value) { delayBeforeStart = value; }
+	void setDuration(int value) { duration = value; }
+	void setRepeatCount(int value) { repeatCount = value; }
+	void setPauseBetweenRepeats(int value) { pauseBetweenRepeats = value; }
 
 protected:
 	static constexpr int second { 1 };
