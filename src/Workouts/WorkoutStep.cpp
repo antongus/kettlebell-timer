@@ -12,12 +12,12 @@
 **/
 
 #include "WorkoutStep.h"
-#include "WorkoutStepPause.h"
-#include "WorkoutStepWork.h"
 
 WorkoutStep::WorkoutStep()
     : QObject(nullptr)
 {
+	static int nextId { 1 };
+	id = nextId++;
 }
 
 /**

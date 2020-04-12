@@ -46,7 +46,7 @@ public:
 	QJsonValue getJson() const override;
 	void setJson(const QJsonValue& conf) override;
 
-	std::shared_ptr<WorkoutStep> findStep(QString const& title);
+	std::shared_ptr<WorkoutStep> findStep(int id);
 	std::shared_ptr<WorkoutStep> addStep(QString const& title);
 	bool deleteStep(std::shared_ptr<WorkoutStep> step);
 

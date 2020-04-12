@@ -32,6 +32,7 @@ public:
 	QJsonValue getJson() const override;
 	void setJson(const QJsonValue& conf) override;
 
+	int getId() const { return id; }
 	QString getCaption() const { return caption; }
 	qint64 getDelayBeforeStart() const { return delayBeforeStart; }
 	qint64 getDuration() const { return duration; }
@@ -43,6 +44,8 @@ public:
 protected:
 	static constexpr qint64 second { 1000 };
 	static constexpr qint64 minute { 60 * second };
+
+	int id;
 
 	QString caption;                           //!< step title
 	qint64 delayBeforeStart { 10 * second };   //!< delay before start, ms

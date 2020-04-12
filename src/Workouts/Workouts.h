@@ -26,7 +26,6 @@ struct Workouts
 	void setJson(const QJsonValue& conf);
 
 	std::shared_ptr<Workout> find(int id);
-	std::shared_ptr<Workout> find(QString const& title);
 	std::shared_ptr<Workout> add(QString const& title);
 
 	auto begin() { return std::begin(workouts); }

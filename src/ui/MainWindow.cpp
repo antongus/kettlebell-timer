@@ -40,6 +40,8 @@ MainWindow::MainWindow(QWidget *parent)
 
 	loadStyleSheet();
 	loadConfig();
+
+	workouts = std::make_unique<Workouts>();
 	loadWorkouts();
 
 	tickSound = new QSoundEffect(this);
@@ -120,9 +122,11 @@ void MainWindow::editConfig()
 void MainWindow::editWorkouts()
 {
 	WorkoutEditor workoutEditor(this);
-	auto json = workouts->getJson();
+	workoutEditor.setJson(workouts->getJson());
 	if (workoutEditor.exec() == QDialog::Accepted)
 	{
+		workouts->setJson(workoutEditor.getJson());
+		saveWorkouts();
 	}
 }
 
@@ -226,8 +230,6 @@ static constexpr char const workoutsFileName[] { "workouts.json" };
 
 void MainWindow::loadWorkouts()
 {
-	if (!workouts)
-		workouts = std::make_unique<Workouts>();
 	QFile file { Application::instanse()->getConfigFileName(workoutsFileName) };
 	if (file.open(QIODevice::ReadOnly))
 	{
@@ -239,8 +241,6 @@ void MainWindow::loadWorkouts()
 
 void MainWindow::saveWorkouts()
 {
-	if (!workouts)
-		return;
 	QFile file { Application::instanse()->getConfigFileName(workoutsFileName) };
 	if (!file.open(QIODevice::WriteOnly))
 	{

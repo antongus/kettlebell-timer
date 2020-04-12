@@ -29,7 +29,8 @@ public:
 	explicit WorkoutEditor(QWidget *parent = nullptr);
 	~WorkoutEditor();
 
-	void fill(Workouts const& w);
+	QJsonValue getJson();
+	void setJson(const QJsonValue& conf);
 
 private:
 	Workouts workouts;
@@ -42,10 +43,12 @@ private:
 	std::shared_ptr<Workout> getCurrentWorkout();
 
 private slots:
+
 	void addWorkout();
 	void deleteWorkout();
 	void addStep();
 	void deleteStep();
-	void selectedWorkoutChanged(QListWidgetItem *current, QListWidgetItem *previous);
+	void selectedWorkoutChanged(QListWidgetItem* current, QListWidgetItem* previous);
+	void selectedStepChanged(QListWidgetItem* current, QListWidgetItem* previous);
 
 };

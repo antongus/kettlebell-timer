@@ -55,12 +55,26 @@ void Workout::setJson(const QJsonValue& conf)
 
 	for (auto stepVal : obj["steps"].toArray())
 	{
-		auto stepObj = stepVal.toObject();
-		auto typeString = stepObj["type"].toString().trimmed();
 		auto stepPtr = std::make_shared<WorkoutStep>();
-		stepPtr->setJson(stepObj);
+		stepPtr->setJson(stepVal.toObject());
 		steps.push_back(stepPtr);
 	}
+}
+
+std::shared_ptr<WorkoutStep> Workout::findStep(int id)
+{
+	auto findById = [&](auto& w) { return id == w->getId(); };
+	if (auto it = std::find_if(steps.begin(), steps.end(), findById); it != steps.end())
+		return *it;
+	return nullptr;
+}
+
+std::shared_ptr<WorkoutStep> Workout::addStep(const QString& title)
+{
+	auto step = std::make_shared<WorkoutStep>();
+	step->setCaption(title);
+	steps.push_back(step);
+	return step;
 }
 
 /**

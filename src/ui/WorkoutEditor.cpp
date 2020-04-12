@@ -41,18 +41,24 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	tbDeleteStep->setDefaultAction(actionDeleteStep);
 
 	connect(listWorkouts, &QListWidget::currentItemChanged, this, &WorkoutEditor::selectedWorkoutChanged);
+	connect(pbOk, &QPushButton::clicked, [=]{done(QDialog::Accepted); });
+	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
 }
 
 WorkoutEditor::~WorkoutEditor()
 {
 }
 
-/**
- * Load workouts into editor
- */
-void WorkoutEditor::fill(const Workouts& w)
+QJsonValue WorkoutEditor::getJson()
 {
-	workouts = w;
+	return workouts.getJson();
+}
+
+void WorkoutEditor::setJson(const QJsonValue& conf)
+{
+	workouts.setJson(conf);
+
+	listWorkoutSteps->clear();
 	listWorkouts->clear();
 	for (auto& workout : workouts)
 	{
@@ -129,9 +135,10 @@ void WorkoutEditor::addStep()
 	if (!ok || title.isEmpty())
 		return;
 
-//	auto step = workout.add(title);
+	auto step = workout->addStep(title);
 	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout->getTitle(), listWorkoutSteps);
-	item->setData(Qt::UserRole, workout->getJson());
+	item->setData(Qt::UserRole, step->getId());
+	item->setData(Qt::UserRole + 1, step->getJson());
 }
 
 void WorkoutEditor::deleteStep()
@@ -139,11 +146,20 @@ void WorkoutEditor::deleteStep()
 
 }
 
-void WorkoutEditor::selectedWorkoutChanged(QListWidgetItem* current, QListWidgetItem* previous)
+void WorkoutEditor::selectedWorkoutChanged(QListWidgetItem* current, QListWidgetItem* )
 {
 	if (current)
 	{
-		auto doc = QJsonDocument(current->data(Qt::UserRole).toJsonValue().toObject());
+		auto doc = QJsonDocument(current->data(Qt::UserRole + 1).toJsonValue().toObject());
+		edWorkout->setPlainText(doc.toJson());
+	}
+}
+
+void WorkoutEditor::selectedStepChanged(QListWidgetItem* current, QListWidgetItem* )
+{
+	if (current)
+	{
+		auto doc = QJsonDocument(current->data(Qt::UserRole + 1).toJsonValue().toObject());
 		edWorkout->setPlainText(doc.toJson());
 	}
 }
