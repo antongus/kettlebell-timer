@@ -33,6 +33,7 @@ public:
 	void setJson(const QJsonValue& conf);
 
 private:
+	static constexpr int idRole {  Qt::UserRole };
 	Workouts workouts;
 
 	QAction* actionAddWorkout    { nullptr };
@@ -40,7 +41,11 @@ private:
 	QAction* actionAddStepWork   { nullptr };
 	QAction* actionDeleteStep    { nullptr };
 
-	std::shared_ptr<Workout> getCurrentWorkout();
+	std::shared_ptr<Workout> getSelectedWorkout();
+	std::shared_ptr<WorkoutStep> getSelectedWorkoutStep();
+	void loadWorkoutStep(std::shared_ptr<WorkoutStep> step);
+
+	std::shared_ptr<WorkoutStep> currentWorkoutStep { nullptr };
 
 private slots:
 
@@ -48,7 +53,7 @@ private slots:
 	void deleteWorkout();
 	void addStep();
 	void deleteStep();
-	void selectedWorkoutChanged(QListWidgetItem* current, QListWidgetItem* previous);
-	void selectedStepChanged(QListWidgetItem* current, QListWidgetItem* previous);
+	void selectedWorkoutChanged();
+	void selectedWorkoutStepChanged();
 
 };

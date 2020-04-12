@@ -21,6 +21,10 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 {
 	setupUi(this);
 
+	// Ok and Cancel buttons
+	connect(pbOk, &QPushButton::clicked, [=]{done(QDialog::Accepted); });
+	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
+
 	// create actions
 	actionAddWorkout = new QAction(QIcon(":/icons/add_workout.svg"), tr("Add new workout"), this);
 	connect(actionAddWorkout, &QAction::triggered, this, &WorkoutEditor::addWorkout);
@@ -28,10 +32,10 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	actionDeleteWorkout = new QAction(QIcon(":/icons/delete_workout.svg"), tr("Delete selected workout"), this);
 	connect(actionDeleteWorkout, &QAction::triggered, this, &WorkoutEditor::deleteWorkout);
 
-	actionAddStepWork = new QAction(QIcon(":/icons/play.svg"), tr("Add exersize to workout"), this);
+	actionAddStepWork = new QAction(QIcon(":/icons/add_step.svg"), tr("Add step to workout"), this);
 	connect(actionAddStepWork, &QAction::triggered, this, &WorkoutEditor::addStep);
 
-	actionDeleteStep = new QAction(QIcon(":/icons/process-stop.svg"), tr("Delete exersize from workout"), this);
+	actionDeleteStep = new QAction(QIcon(":/icons/delete_step.svg"), tr("Delete step from workout"), this);
 	connect(actionDeleteStep, &QAction::triggered, this, &WorkoutEditor::deleteStep);
 
 	// assign actions to buttons
@@ -40,9 +44,10 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	tbAddStepWork->setDefaultAction(actionAddStepWork);
 	tbDeleteStep->setDefaultAction(actionDeleteStep);
 
+	loadWorkoutStep(nullptr);
+
 	connect(listWorkouts, &QListWidget::currentItemChanged, this, &WorkoutEditor::selectedWorkoutChanged);
-	connect(pbOk, &QPushButton::clicked, [=]{done(QDialog::Accepted); });
-	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
+	connect(listWorkoutSteps, &QListWidget::currentItemChanged, this, &WorkoutEditor::selectedWorkoutStepChanged);
 }
 
 WorkoutEditor::~WorkoutEditor()
@@ -63,23 +68,75 @@ void WorkoutEditor::setJson(const QJsonValue& conf)
 	for (auto& workout : workouts)
 	{
 		auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
-		item->setData(Qt::UserRole, workout->getId());
-		item->setData(Qt::UserRole + 1, workout->getJson());
+		item->setData(idRole, workout->getId());
 	}
+	listWorkouts->setCurrentRow(0);
 }
 
 /**
  * get current (selected in left pane) workout
  */
-std::shared_ptr<Workout> WorkoutEditor::getCurrentWorkout()
+std::shared_ptr<Workout> WorkoutEditor::getSelectedWorkout()
 {
 	auto item = listWorkouts->currentItem();
 	if (item)
 	{
-		auto id = item->data(Qt::UserRole + 1).toInt();
+		auto id = item->data(idRole).toInt();
 		return workouts.find(id);
 	}
 	return nullptr;
+}
+
+std::shared_ptr<WorkoutStep> WorkoutEditor::getSelectedWorkoutStep()
+{
+	auto currentWorkout = getSelectedWorkout();
+	if (currentWorkout)
+	{
+		auto item = listWorkoutSteps->currentItem();
+		if (item)
+		{
+			auto id = item->data(idRole).toInt();
+			return currentWorkout->findStep(id);
+		}
+	}
+	return nullptr;
+}
+
+/**
+ * Load workout step to editor
+ */
+void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
+{
+	// save current step
+	if (currentWorkoutStep)
+	{
+		currentWorkoutStep->setCaption(edStepCaption->text());
+		currentWorkoutStep->setDelayBeforeStart(sbDelayBeforeStart->value());
+	}
+	currentWorkoutStep = step;
+	auto const hasStep = currentWorkoutStep != nullptr;
+	edStepCaption->setEnabled(hasStep);
+	sbDelayBeforeStart->setEnabled(hasStep);
+	sbStepDuration->setEnabled(hasStep);
+	sbStepRepeatCount->setEnabled(hasStep);
+	sbPauseBetweenRepeats->setEnabled(hasStep);
+
+	if (hasStep)
+	{
+		edStepCaption->setText(currentWorkoutStep->getCaption());
+		sbDelayBeforeStart->setValue(currentWorkoutStep->getDelayBeforeStart());
+		sbStepDuration->setValue(currentWorkoutStep->getDuration());
+		sbStepRepeatCount->setValue(currentWorkoutStep->getRepeatCount());
+		sbPauseBetweenRepeats->setValue(currentWorkoutStep->getPauseBetweenRepeats());
+	}
+	else
+	{
+		edStepCaption->setText("");
+		sbDelayBeforeStart->setValue(0);
+		sbStepDuration->setValue(0);
+		sbStepRepeatCount->setValue(0);
+		sbPauseBetweenRepeats->setValue(0);
+	}
 }
 
 /**
@@ -100,11 +157,11 @@ void WorkoutEditor::addWorkout()
 		return;
 
 	auto workout = workouts.add(title);
-	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout->getTitle(), listWorkouts);
+	auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
 
 	// store id and json into item data
-	item->setData(Qt::UserRole, workout->getId());
-	item->setData(Qt::UserRole + 1, workout->getJson());
+	item->setData(idRole, workout->getId());
+	listWorkouts->setCurrentItem(item);
 }
 
 void WorkoutEditor::deleteWorkout()
@@ -112,14 +169,15 @@ void WorkoutEditor::deleteWorkout()
 	auto item = listWorkouts->takeItem(listWorkouts->currentRow());
 	if (item)
 	{
-//		auto id = item->data(Qt::UserRole + 1).toInt();
+		auto id = item->data(idRole).toInt();
+		workouts.remove(id);
 		delete item;
 	}
 }
 
 void WorkoutEditor::addStep()
 {
-	auto workout = getCurrentWorkout();
+	auto workout = getSelectedWorkout();
 	if (!workout)
 		return;
 
@@ -136,30 +194,45 @@ void WorkoutEditor::addStep()
 		return;
 
 	auto step = workout->addStep(title);
-	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout->getTitle(), listWorkoutSteps);
-	item->setData(Qt::UserRole, step->getId());
-	item->setData(Qt::UserRole + 1, step->getJson());
+	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), step->getCaption(), listWorkoutSteps);
+	item->setData(idRole, step->getId());
+	listWorkoutSteps->setCurrentItem(item);
 }
 
 void WorkoutEditor::deleteStep()
 {
-
-}
-
-void WorkoutEditor::selectedWorkoutChanged(QListWidgetItem* current, QListWidgetItem* )
-{
-	if (current)
+	auto item = listWorkoutSteps->takeItem(listWorkoutSteps->currentRow());
+	if (item)
 	{
-		auto doc = QJsonDocument(current->data(Qt::UserRole + 1).toJsonValue().toObject());
-		edWorkout->setPlainText(doc.toJson());
+		auto id = item->data(idRole).toInt();
+		auto workout = getSelectedWorkout();
+		if (workout)
+		{
+			workout->deleteStep(id);
+		}
+		delete item;
 	}
 }
 
-void WorkoutEditor::selectedStepChanged(QListWidgetItem* current, QListWidgetItem* )
+void WorkoutEditor::selectedWorkoutChanged()
 {
-	if (current)
+	auto workout = getSelectedWorkout();
+	if (workout)
 	{
-		auto doc = QJsonDocument(current->data(Qt::UserRole + 1).toJsonValue().toObject());
+		auto doc = QJsonDocument(workout->getJson().toObject());
 		edWorkout->setPlainText(doc.toJson());
+
+		listWorkoutSteps->clear();
+		for (auto& step: workout->getSteps())
+		{
+			auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), step->getCaption(), listWorkoutSteps);
+			item->setData(idRole, step->getId());
+		}
+		listWorkoutSteps->setCurrentRow(0);
 	}
+}
+
+void WorkoutEditor::selectedWorkoutStepChanged()
+{
+	loadWorkoutStep(getSelectedWorkoutStep());
 }
