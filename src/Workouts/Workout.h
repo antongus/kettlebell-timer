@@ -40,6 +40,8 @@ public:
 	void setTitle(QString value) { title = std::move(value); }
 	QString const& getTitle() const { return title; }
 
+	int getId() const { return id; }
+
 	// ConfigItem interface
 	QJsonValue getJson() const override;
 	void setJson(const QJsonValue& conf) override;
@@ -67,6 +69,7 @@ signals:
 	void playSound();
 
 private:
+	int id;
 	QString title;
 	std::vector<std::shared_ptr<WorkoutStep>> steps;
 	bool running { false };

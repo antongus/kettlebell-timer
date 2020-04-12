@@ -39,6 +39,14 @@ void Workouts::setJson(const QJsonValue& conf)
 	}
 }
 
+std::shared_ptr<Workout> Workouts::find(int id)
+{
+	auto findById = [&](auto& w) { return id == w->getId(); };
+	if (auto it = std::find_if(workouts.begin(), workouts.end(), findById); it != workouts.end())
+		return *it;
+	return nullptr;
+}
+
 std::shared_ptr<Workout> Workouts::find(const QString& title)
 {
 	auto findByTitle = [&](auto& w) { return title.compare(w->getTitle()) == 0; };

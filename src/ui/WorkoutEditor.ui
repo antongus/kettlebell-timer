@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>687</width>
-    <height>542</height>
+    <width>703</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,6 +38,12 @@
       </item>
       <item>
        <widget class="QWidget" name="widget_4" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>44</height>
+         </size>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_4">
          <property name="leftMargin">
           <number>1</number>
@@ -161,6 +167,12 @@
       </item>
       <item>
        <widget class="QWidget" name="widget_5" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>44</height>
+         </size>
+        </property>
         <layout class="QHBoxLayout" name="horizontalLayout_5">
          <property name="leftMargin">
           <number>1</number>
@@ -175,7 +187,7 @@
           <number>1</number>
          </property>
          <item>
-          <widget class="QToolButton" name="tbAddStep">
+          <widget class="QToolButton" name="tbAddStepWork">
            <property name="minimumSize">
             <size>
              <width>32</width>
@@ -245,7 +257,84 @@
        </widget>
       </item>
       <item>
-       <widget class="QListWidget" name="listWorkoutProgram"/>
+       <widget class="QListWidget" name="listWorkoutSteps"/>
+      </item>
+      <item>
+       <widget class="QWidget" name="widget_3" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>160</height>
+         </size>
+        </property>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="labelAlignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
+            <string>Step name</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="edStepCaption"/>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_4">
+           <property name="text">
+            <string>Delay before step start</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QSpinBox" name="sbDelayBeforeStart">
+           <property name="suffix">
+            <string> s</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Step duration</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QSpinBox" name="sbStepDuration">
+           <property name="suffix">
+            <string> s</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_6">
+           <property name="text">
+            <string>Step repeat count</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QSpinBox" name="sbStepRepeatCount"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_7">
+           <property name="text">
+            <string>Pause between repeats</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QSpinBox" name="sbPauseBetweenRepeats">
+           <property name="suffix">
+            <string> s</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
       </item>
       <item>
        <widget class="QPlainTextEdit" name="edWorkout"/>

@@ -33,13 +33,13 @@ public:
 
 private:
 	Workouts workouts;
+
 	QAction* actionAddWorkout    { nullptr };
 	QAction* actionDeleteWorkout { nullptr };
-	QAction* actionAddStep       { nullptr };
+	QAction* actionAddStepWork   { nullptr };
 	QAction* actionDeleteStep    { nullptr };
 
-	void createActions();
-	void connectActions();
+	std::shared_ptr<Workout> getCurrentWorkout();
 
 private slots:
 	void addWorkout();

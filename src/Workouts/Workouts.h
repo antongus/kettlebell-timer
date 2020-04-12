@@ -25,6 +25,7 @@ struct Workouts
 	QJsonValue getJson();
 	void setJson(const QJsonValue& conf);
 
+	std::shared_ptr<Workout> find(int id);
 	std::shared_ptr<Workout> find(QString const& title);
 	std::shared_ptr<Workout> add(QString const& title);
 

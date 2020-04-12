@@ -20,6 +20,8 @@
 Workout::Workout()
     : QObject(nullptr)
 {
+	static int nextId { 1 };
+	id = nextId++;
 }
 
 Workout::~Workout()

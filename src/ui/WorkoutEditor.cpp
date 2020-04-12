@@ -28,15 +28,16 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	actionDeleteWorkout = new QAction(QIcon(":/icons/delete_workout.svg"), tr("Delete selected workout"), this);
 	connect(actionDeleteWorkout, &QAction::triggered, this, &WorkoutEditor::deleteWorkout);
 
-	actionAddStep = new QAction(QIcon(":/icons/plus.svg"), tr("Add workout step"), this);
-	connect(actionAddStep, &QAction::triggered, this, &WorkoutEditor::addStep);
+	actionAddStepWork = new QAction(QIcon(":/icons/play.svg"), tr("Add exersize to workout"), this);
+	connect(actionAddStepWork, &QAction::triggered, this, &WorkoutEditor::addStep);
 
-	actionDeleteStep = new QAction(QIcon(":/icons/process-stop.svg"), tr("Delete workout step"), this);
+	actionDeleteStep = new QAction(QIcon(":/icons/process-stop.svg"), tr("Delete exersize from workout"), this);
 	connect(actionDeleteStep, &QAction::triggered, this, &WorkoutEditor::deleteStep);
 
+	// assign actions to buttons
 	tbAddWorkout->setDefaultAction(actionAddWorkout);
 	tbDeleteWorkout->setDefaultAction(actionDeleteWorkout);
-	tbAddStep->setDefaultAction(actionAddStep);
+	tbAddStepWork->setDefaultAction(actionAddStepWork);
 	tbDeleteStep->setDefaultAction(actionDeleteStep);
 
 	connect(listWorkouts, &QListWidget::currentItemChanged, this, &WorkoutEditor::selectedWorkoutChanged);
@@ -46,17 +47,38 @@ WorkoutEditor::~WorkoutEditor()
 {
 }
 
+/**
+ * Load workouts into editor
+ */
 void WorkoutEditor::fill(const Workouts& w)
 {
 	workouts = w;
 	listWorkouts->clear();
 	for (auto& workout : workouts)
 	{
-		auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout.getTitle(), listWorkouts);
-		item->setData(Qt::UserRole, workout.getJson());
+		auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
+		item->setData(Qt::UserRole, workout->getId());
+		item->setData(Qt::UserRole + 1, workout->getJson());
 	}
 }
 
+/**
+ * get current (selected in left pane) workout
+ */
+std::shared_ptr<Workout> WorkoutEditor::getCurrentWorkout()
+{
+	auto item = listWorkouts->currentItem();
+	if (item)
+	{
+		auto id = item->data(Qt::UserRole + 1).toInt();
+		return workouts.find(id);
+	}
+	return nullptr;
+}
+
+/**
+ * add new workout
+ */
 void WorkoutEditor::addWorkout()
 {
 	auto ok { false };
@@ -70,21 +92,46 @@ void WorkoutEditor::addWorkout()
 	                 ).trimmed();
 	if (!ok || title.isEmpty())
 		return;
-	Workout workout;
-	workout.setTitle(title);
-	workouts.push_back(workout);
-	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout.getTitle(), listWorkouts);
-	item->setData(Qt::UserRole, workout.getJson());
+
+	auto workout = workouts.add(title);
+	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout->getTitle(), listWorkouts);
+
+	// store id and json into item data
+	item->setData(Qt::UserRole, workout->getId());
+	item->setData(Qt::UserRole + 1, workout->getJson());
 }
 
 void WorkoutEditor::deleteWorkout()
 {
-
+	auto item = listWorkouts->takeItem(listWorkouts->currentRow());
+	if (item)
+	{
+//		auto id = item->data(Qt::UserRole + 1).toInt();
+		delete item;
+	}
 }
 
 void WorkoutEditor::addStep()
 {
+	auto workout = getCurrentWorkout();
+	if (!workout)
+		return;
 
+	bool ok { false };
+	auto title = QInputDialog::getText(
+	                 this,
+	                 tr("Enter title for new step"),
+	                 tr("Title for new step"),
+	                 QLineEdit::Normal,
+	                 "",
+	                 &ok
+	                 ).trimmed();
+	if (!ok || title.isEmpty())
+		return;
+
+//	auto step = workout.add(title);
+	auto item = new QListWidgetItem(QIcon(":/icons/next.svg"), workout->getTitle(), listWorkoutSteps);
+	item->setData(Qt::UserRole, workout->getJson());
 }
 
 void WorkoutEditor::deleteStep()
