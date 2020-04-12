@@ -59,6 +59,13 @@ std::shared_ptr<Workout> Workouts::add(const QString& title)
 	return workout;
 }
 
+void Workouts::remove(int id)
+{
+	auto findById = [&](auto& w) { return id == w->getId(); };
+	auto end = std::end(workouts);
+	workouts.erase(std::remove_if(std::begin(workouts), end, findById), end);
+}
+
 void Workouts::addBuiltinWorkouts()
 {
 	static constexpr char json1[] =

@@ -27,6 +27,7 @@ struct Workouts
 
 	std::shared_ptr<Workout> find(int id);
 	std::shared_ptr<Workout> add(QString const& title);
+	void remove(int id);
 
 	auto begin() { return std::begin(workouts); }
 	auto end() { return std::end(workouts); }
