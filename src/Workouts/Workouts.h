@@ -16,16 +16,25 @@
 #include <QString>
 #include <QJsonObject>
 #include <vector>
+#include <memory>
 
 #include "Workout.h"
 
-struct Workouts : public std::vector<Workout>
+struct Workouts
 {
 	QJsonValue getJson();
 	void setJson(const QJsonValue& conf);
 
-	std::optional<Workout> find(QString const& title);
+	std::shared_ptr<Workout> find(QString const& title);
+	std::shared_ptr<Workout> add(QString const& title);
+
+	auto begin() { return std::begin(workouts); }
+	auto end() { return std::end(workouts); }
+	auto begin() const { return std::begin(workouts); }
+	auto end() const { return std::end(workouts); }
 
 private:
 	void addBuiltinWorkouts();
+
+	std::vector<std::shared_ptr<Workout>> workouts;
 };

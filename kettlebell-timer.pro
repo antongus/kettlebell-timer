@@ -37,29 +37,31 @@ CONFIG(release, debug|release){
 INCLUDEPATH += \
     src \
     src/ui \
+    src/Workouts \
 
 SOURCES += \
     src/main.cpp \
-    src/ui/MainWindow.cpp \
     src/Application.cpp \
+    src/Config.cpp \
+    src/ui/MainWindow.cpp \
     src/ui/AboutDialog.cpp \
     src/ui/ConfigDialog.cpp \
-    src/Config.cpp \
     src/ui/WorkoutEditor.cpp \
-    src/Workout.cpp \
-    src/WorkoutStep.cpp \
-    src/Workouts.cpp
+    src/Workouts/Workout.cpp \
+    src/Workouts/WorkoutStep.cpp \
+    src/Workouts/Workouts.cpp
 
 HEADERS += \
-    src/ui/MainWindow.h \
     src/Application.h \
+    src/Config.h \
+    src/ui/MainWindow.h \
     src/ui/AboutDialog.h \
     src/ui/ConfigDialog.h \
-    src/Config.h \
     src/ui/WorkoutEditor.h \
-    src/Workout.h \
-    src/WorkoutStep.h \
-    src/Workouts.h
+    src/Workouts/Workout.h \
+    src/Workouts/WorkoutStep.h \
+    src/Workouts/Workouts.h \
+    src/ConfigItem.h
 
 FORMS += \
     src/ui/MainWindow.ui \

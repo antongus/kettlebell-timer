@@ -19,9 +19,9 @@ QJsonValue Workouts::getJson()
 {
 	QJsonArray array;
 
-	for (auto& workout : *this)
+	for (auto& workout : workouts)
 	{
-		auto stepObj = workout.getJson().toObject();
+		auto stepObj = workout->getJson().toObject();
 		array.append(stepObj);
 	}
 	return array;
@@ -29,23 +29,30 @@ QJsonValue Workouts::getJson()
 
 void Workouts::setJson(const QJsonValue& conf)
 {
-	clear();
+	workouts.clear();
 //	addBuiltinWorkouts();
 
 	for (auto stepVal : conf.toArray())
 	{
-		Workout workout;
-		workout.setJson(stepVal.toObject());
-		push_back(workout);
+		auto& workout = workouts.emplace_back(std::make_shared<Workout>());
+		workout->setJson(stepVal.toObject());
 	}
 }
 
-std::optional<Workout> Workouts::find(const QString& title)
+std::shared_ptr<Workout> Workouts::find(const QString& title)
 {
-	auto findByTitle = [&](Workout const& w) { return title.compare(w.getTitle()) == 0; };
-	if (auto it = std::find_if(begin(), end(), findByTitle); it != end())
+	auto findByTitle = [&](auto& w) { return title.compare(w->getTitle()) == 0; };
+	if (auto it = std::find_if(workouts.begin(), workouts.end(), findByTitle); it != workouts.end())
 		return *it;
-	return {};
+	return nullptr;
+}
+
+std::shared_ptr<Workout> Workouts::add(const QString& title)
+{
+	auto workout = std::make_shared<Workout>();
+	workouts.emplace_back(workout);
+	workout->setTitle(title);
+	return workout;
 }
 
 void Workouts::addBuiltinWorkouts()
@@ -69,7 +76,6 @@ R"(
 }
 )";
 
-	Workout w1;
-	w1.setJson(json1);
-	push_back(w1);
+	auto& workout = workouts.emplace_back(std::make_shared<Workout>());
+	workout->setJson(json1);
 }
