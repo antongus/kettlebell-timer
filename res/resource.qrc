@@ -17,5 +17,6 @@
         <file>icons/archive.svg</file>
         <file>icons/next.svg</file>
         <file>icons/previous.svg</file>
+        <file>icons/pause.svg</file>
     </qresource>
 </RCC>
