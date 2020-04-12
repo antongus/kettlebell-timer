@@ -21,10 +21,12 @@
 #include <memory>
 
 #include "WorkoutStep.h"
+#include "ItemWithId.h"
 #include "ConfigItem.h"
 
 class Workout
         : public QObject
+        , public ItemWithId
         , public ConfigItem
 {
 	Q_OBJECT
@@ -32,15 +34,8 @@ public:
 	Workout();
 	~Workout() override;
 
-	Workout(Workout const& other) = delete;
-	Workout(Workout&& other) = delete;
-	Workout& operator= (Workout const& other) = delete;
-	Workout& operator= (Workout&& other) = delete;
-
 	void setTitle(QString value) { title = std::move(value); }
 	QString const& getTitle() const { return title; }
-
-	int getId() const { return id; }
 
 	// ConfigItem interface
 	QJsonValue getJson() const override;
@@ -49,11 +44,6 @@ public:
 	std::shared_ptr<WorkoutStep> findStep(int id);
 	std::shared_ptr<WorkoutStep> addStep(QString const& title);
 	bool deleteStep(std::shared_ptr<WorkoutStep> step);
-
-	auto begin() { return std::begin(steps); }
-	auto end() { return std::end(steps); }
-	auto begin() const { return std::begin(steps); }
-	auto end() const { return std::end(steps); }
 
 public slots:
 	bool start();
@@ -69,7 +59,6 @@ signals:
 	void playSound();
 
 private:
-	int id;
 	QString title;
 	std::vector<std::shared_ptr<WorkoutStep>> steps;
 	bool running { false };

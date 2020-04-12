@@ -61,7 +61,8 @@ HEADERS += \
     src/Workouts/Workout.h \
     src/Workouts/WorkoutStep.h \
     src/Workouts/Workouts.h \
-    src/ConfigItem.h
+    src/ConfigItem.h \
+    src/ItemWithId.h
 
 FORMS += \
     src/ui/MainWindow.ui \

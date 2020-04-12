@@ -19,9 +19,8 @@
 
 Workout::Workout()
     : QObject(nullptr)
+    , ItemWithId()
 {
-	static int nextId { 1 };
-	id = nextId++;
 }
 
 Workout::~Workout()

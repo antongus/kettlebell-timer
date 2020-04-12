@@ -13,13 +13,6 @@
 
 #include "WorkoutStep.h"
 
-WorkoutStep::WorkoutStep()
-    : QObject(nullptr)
-{
-	static int nextId { 1 };
-	id = nextId++;
-}
-
 /**
  * get item configuration (as JSON)
  */
