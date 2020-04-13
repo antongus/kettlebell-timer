@@ -13,6 +13,7 @@
 
 #include <QJsonDocument>
 #include <QInputDialog>
+#include <QtDebug>
 
 #include "WorkoutEditor.h"
 
@@ -54,8 +55,10 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 
 	loadWorkoutStep(nullptr);
 
-	connect(listWorkouts, &QListWidget::currentItemChanged, this, &WorkoutEditor::selectedWorkoutChanged);
 	connect(listWorkoutSteps, &QListWidget::currentItemChanged, this, &WorkoutEditor::selectedWorkoutStepChanged);
+
+	listWorkouts->setModel(&workouts);
+	connect(listWorkouts->selectionModel(), &QItemSelectionModel::selectionChanged, this, &WorkoutEditor::selectedWorkoutChanged);
 }
 
 WorkoutEditor::~WorkoutEditor()
@@ -70,15 +73,7 @@ QJsonValue WorkoutEditor::getJson()
 void WorkoutEditor::setJson(const QJsonValue& conf)
 {
 	workouts.setJson(conf);
-
-	listWorkoutSteps->clear();
-	listWorkouts->clear();
-	for (auto& workout : workouts)
-	{
-		auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
-		item->setData(idRole, workout->getId());
-	}
-	listWorkouts->setCurrentRow(0);
+	listWorkouts->setCurrentIndex(workouts.index(0));
 }
 
 /**
@@ -86,11 +81,11 @@ void WorkoutEditor::setJson(const QJsonValue& conf)
  */
 std::shared_ptr<Workout> WorkoutEditor::getSelectedWorkout()
 {
-	auto item = listWorkouts->currentItem();
-	if (item)
+	auto index = listWorkouts->currentIndex();
+	if (index.isValid())
 	{
-		auto id = item->data(idRole).toInt();
-		return workouts.find(id);
+		auto row = static_cast<size_t>(index.row());
+		return workouts.getWorkout(row);
 	}
 	return nullptr;
 }
@@ -180,21 +175,22 @@ void WorkoutEditor::addWorkout()
 		return;
 
 	auto workout = workouts.add(title);
-	auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
-
-	// store id and json into item data
-	item->setData(idRole, workout->getId());
-	listWorkouts->setCurrentItem(item);
 }
 
 void WorkoutEditor::deleteWorkout()
 {
-	auto item = listWorkouts->takeItem(listWorkouts->currentRow());
-	if (item)
+	auto index = listWorkouts->currentIndex();
+	if (index.isValid())
 	{
-		auto id = item->data(idRole).toInt();
-		workouts.remove(id);
-		delete item;
+		auto row = index.row();
+		auto workout = workouts.getWorkout(static_cast<size_t>(row));
+		if (workout)
+		{
+			workouts.remove(workout->getId());
+			if (row >= static_cast<int>(workouts.size()))
+				row--;
+			listWorkouts->setCurrentIndex(workouts.index(row));
+		}
 	}
 }
 

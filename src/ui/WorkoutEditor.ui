@@ -158,9 +158,12 @@
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listWorkouts">
+          <widget class="QListView" name="listWorkouts">
            <property name="editTriggers">
-            <set>QAbstractItemView::AnyKeyPressed|QAbstractItemView::DoubleClicked|QAbstractItemView::EditKeyPressed</set>
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
            </property>
           </widget>
          </item>
@@ -341,7 +344,14 @@
           </widget>
          </item>
          <item>
-          <widget class="QListWidget" name="listWorkoutSteps"/>
+          <widget class="QListWidget" name="listWorkoutSteps">
+           <property name="editTriggers">
+            <set>QAbstractItemView::NoEditTriggers</set>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
+          </widget>
          </item>
          <item>
           <widget class="QWidget" name="widget_3" native="true">
@@ -489,6 +499,9 @@
           <height>32</height>
          </size>
         </property>
+        <property name="autoDefault">
+         <bool>false</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -538,6 +551,9 @@
           <width>32</width>
           <height>32</height>
          </size>
+        </property>
+        <property name="autoDefault">
+         <bool>false</bool>
         </property>
        </widget>
       </item>
