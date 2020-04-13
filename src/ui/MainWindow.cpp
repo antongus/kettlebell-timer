@@ -237,6 +237,10 @@ void MainWindow::loadWorkouts()
 		auto doc = QJsonDocument::fromJson(buf);
 		workouts->setJson(doc.object());
 	}
+	else
+	{
+		workouts->createDefaultWorkouts();
+	}
 }
 
 void MainWindow::saveWorkouts()

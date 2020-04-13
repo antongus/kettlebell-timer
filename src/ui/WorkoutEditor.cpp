@@ -26,23 +26,31 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
 
 	// create actions
-	actionAddWorkout = new QAction(QIcon(":/icons/add_workout.svg"), tr("Add new workout"), this);
+	auto actionAddWorkout = new QAction(QIcon(":/icons/add_workout.svg"), tr("Add new workout"), this);
 	connect(actionAddWorkout, &QAction::triggered, this, &WorkoutEditor::addWorkout);
 
-	actionDeleteWorkout = new QAction(QIcon(":/icons/delete_workout.svg"), tr("Delete selected workout"), this);
+	auto actionDeleteWorkout = new QAction(QIcon(":/icons/delete_workout.svg"), tr("Delete selected workout"), this);
 	connect(actionDeleteWorkout, &QAction::triggered, this, &WorkoutEditor::deleteWorkout);
 
-	actionAddStepWork = new QAction(QIcon(":/icons/add_step.svg"), tr("Add step to workout"), this);
+	auto actionAddStepWork = new QAction(QIcon(":/icons/hurdle.svg"), tr("Add step to workout"), this);
 	connect(actionAddStepWork, &QAction::triggered, this, &WorkoutEditor::addStep);
 
-	actionDeleteStep = new QAction(QIcon(":/icons/delete_step.svg"), tr("Delete step from workout"), this);
+	auto actionDeleteStep = new QAction(QIcon(":/icons/delete_step.svg"), tr("Delete step from workout"), this);
 	connect(actionDeleteStep, &QAction::triggered, this, &WorkoutEditor::deleteStep);
+
+	auto actionMoveStepUp = new QAction(QIcon(":/icons/up.svg"), tr("Move step up"), this);
+	connect(actionMoveStepUp, &QAction::triggered, this, &WorkoutEditor::moveStepUp);
+
+	auto actionMoveStepDown = new QAction(QIcon(":/icons/down.svg"), tr("Move step down"), this);
+	connect(actionMoveStepDown, &QAction::triggered, this, &WorkoutEditor::moveStepDown);
 
 	// assign actions to buttons
 	tbAddWorkout->setDefaultAction(actionAddWorkout);
 	tbDeleteWorkout->setDefaultAction(actionDeleteWorkout);
 	tbAddStepWork->setDefaultAction(actionAddStepWork);
 	tbDeleteStep->setDefaultAction(actionDeleteStep);
+	tbMoveStepUp->setDefaultAction(actionMoveStepUp);
+	tbMoveStepDown->setDefaultAction(actionMoveStepDown);
 
 	loadWorkoutStep(nullptr);
 
@@ -110,8 +118,23 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	// save current step
 	if (currentWorkoutStep)
 	{
-		currentWorkoutStep->setCaption(edStepCaption->text());
+		auto caption = edStepCaption->text();
+		currentWorkoutStep->setCaption(caption);
 		currentWorkoutStep->setDelayBeforeStart(sbDelayBeforeStart->value());
+		currentWorkoutStep->setDuration(sbStepDuration->value());
+		currentWorkoutStep->setRepeatCount(sbStepRepeatCount->value());
+		currentWorkoutStep->setPauseBetweenRepeats(sbPauseBetweenRepeats->value());
+		auto id = currentWorkoutStep->getId();
+		for (auto row = 0; row < listWorkoutSteps->count(); ++row)
+		{
+			auto item = listWorkoutSteps->item(row);
+			auto itemId = item->data(idRole).toInt();
+			if (id == itemId)
+			{
+				item->setText(caption);
+				break;
+			}
+		}
 	}
 	currentWorkoutStep = step;
 	auto const hasStep = currentWorkoutStep != nullptr;
@@ -211,6 +234,31 @@ void WorkoutEditor::deleteStep()
 			workout->deleteStep(id);
 		}
 		delete item;
+	}
+}
+
+void WorkoutEditor::moveStepUp()
+{
+	auto row = listWorkoutSteps->currentRow();
+	if (row > 0)
+	{
+		auto item = listWorkoutSteps->takeItem(row);
+		auto newRow = row - 1;
+		listWorkoutSteps->insertItem(newRow, item);
+		listWorkoutSteps->setCurrentRow(newRow);
+	}
+}
+
+void WorkoutEditor::moveStepDown()
+{
+	auto row = listWorkoutSteps->currentRow();
+	auto cnt = listWorkoutSteps->count();
+	if (cnt > 1 && row < cnt - 1)
+	{
+		auto item = listWorkoutSteps->takeItem(row);
+		auto newRow = row + 1;
+		listWorkoutSteps->insertItem(newRow, item);
+		listWorkoutSteps->setCurrentRow(newRow);
 	}
 }
 

@@ -36,11 +36,6 @@ private:
 	static constexpr int idRole {  Qt::UserRole };
 	Workouts workouts;
 
-	QAction* actionAddWorkout    { nullptr };
-	QAction* actionDeleteWorkout { nullptr };
-	QAction* actionAddStepWork   { nullptr };
-	QAction* actionDeleteStep    { nullptr };
-
 	std::shared_ptr<Workout> getSelectedWorkout();
 	std::shared_ptr<WorkoutStep> getSelectedWorkoutStep();
 	void loadWorkoutStep(std::shared_ptr<WorkoutStep> step);
@@ -53,6 +48,8 @@ private slots:
 	void deleteWorkout();
 	void addStep();
 	void deleteStep();
+	void moveStepUp();
+	void moveStepDown();
 	void selectedWorkoutChanged();
 	void selectedWorkoutStepChanged();
 

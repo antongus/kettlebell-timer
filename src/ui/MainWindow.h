@@ -43,6 +43,8 @@ private:
 	static constexpr bool displayTens { false };
 
 	std::unique_ptr<Workouts> workouts { nullptr };
+	std::unique_ptr<Workout> workout { nullptr };
+
 	QTimer* timer { nullptr };
 
 	QSoundEffect* tickSound { nullptr };
