@@ -17,6 +17,7 @@
 #include "Config.h"
 #include "ConfigDialog.h"
 #include "WorkoutEditor.h"
+#include "WorkoutSelector.h"
 
 #include <QDebug>
 #include <QFileDialog>
@@ -130,6 +131,17 @@ void MainWindow::editWorkouts()
 	}
 }
 
+void MainWindow::selectWorkout()
+{
+	WorkoutSelector workoutSelector(workouts.get(), this);
+	if (workoutSelector.exec() == QDialog::Accepted)
+	{
+		auto newWorkout = workouts->find(workoutSelector.getSelectedWorkoutId());
+		if (newWorkout)
+			workout = newWorkout;
+	}
+}
+
 void MainWindow::connectHandlers()
 {
 	connect(tbAbout, &QToolButton::clicked, [&]() {
@@ -140,6 +152,7 @@ void MainWindow::connectHandlers()
 	connect(tbSettings, &QToolButton::clicked, this, &MainWindow::editConfig);
 	connect(pbStart, &QPushButton::clicked, this, &MainWindow::startClicked);
 	connect(tbEditWorkouts, &QToolButton::clicked, this, &MainWindow::editWorkouts);
+	connect(tbSelectWorkout, &QToolButton::clicked, this, &MainWindow::selectWorkout);
 }
 
 void MainWindow::startClicked()
@@ -219,11 +232,6 @@ void MainWindow::stopExersise()
 	pbStart->setToolTip(tr("Start exersise"));
 	pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
 	displayTicks(0);
-}
-
-std::optional<Workout> MainWindow::getSelectedWorkout()
-{
-	return {};
 }
 
 static constexpr char const workoutsFileName[] { "workouts.json" };

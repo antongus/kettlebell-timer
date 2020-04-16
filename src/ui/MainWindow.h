@@ -43,7 +43,7 @@ private:
 	static constexpr bool displayTens { false };
 
 	std::unique_ptr<Workouts> workouts { nullptr };
-	std::unique_ptr<Workout> workout { nullptr };
+	std::shared_ptr<Workout> workout { nullptr };
 
 	QTimer* timer { nullptr };
 
@@ -76,6 +76,7 @@ private:
 	void saveConfig();
 	void editConfig();
 	void editWorkouts();
+	void selectWorkout();
 	void connectHandlers();
 	void startClicked();
 	void displayTicks(int ticks);
@@ -83,7 +84,6 @@ private:
 	void startExersise();
 	void stopExersise();
 
-	std::optional<Workout> getSelectedWorkout();
 	void loadWorkouts();
 	void saveWorkouts();
 };
