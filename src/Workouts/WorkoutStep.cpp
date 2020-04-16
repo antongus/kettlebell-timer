@@ -57,8 +57,8 @@ void WorkoutStep::setJson(const QJsonValue& conf)
 	initialDelay   = obj[VarNames::initialDelay].toInt(10 * second);
 	duration       = obj[VarNames::duration].toInt(10 * minute);
 	attempts       = obj[VarNames::attempts].toInt(200);
-	attemptBeeps   = obj[VarNames::attemptBeeps].toBool();
+	attemptBeeps   = obj[VarNames::attemptBeeps].toBool(true);
 	loopCount      = obj[VarNames::loopCount].toInt(1);
 	loopPause      = obj[VarNames::loopPause].toInt(5 * second);
-	pauseBeeps     = obj[VarNames::pauseBeeps].toBool();
+	pauseBeeps     = obj[VarNames::pauseBeeps].toBool(true);
 }

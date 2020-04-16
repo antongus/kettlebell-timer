@@ -135,7 +135,10 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	auto const hasStep = currentWorkoutStep != nullptr;
 	edStepCaption->setEnabled(hasStep);
 	sbDelayBeforeStart->setEnabled(hasStep);
+	cbPauseBeeps->setEnabled(hasStep);
 	sbStepDuration->setEnabled(hasStep);
+	sbStepAttempts->setEnabled(hasStep);
+	cbAttemptBeeps->setEnabled(hasStep);
 	sbStepRepeatCount->setEnabled(hasStep);
 	sbPauseBetweenRepeats->setEnabled(hasStep);
 
@@ -143,7 +146,10 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	{
 		edStepCaption->setText(currentWorkoutStep->getCaption());
 		sbDelayBeforeStart->setValue(currentWorkoutStep->getInitialDelay());
+		cbPauseBeeps->setChecked(currentWorkoutStep->getPauseBeeps());
 		sbStepDuration->setValue(currentWorkoutStep->getDuration());
+		sbStepAttempts->setValue(currentWorkoutStep->getAttempts());
+		cbAttemptBeeps->setChecked(currentWorkoutStep->getAttemptBeeps());
 		sbStepRepeatCount->setValue(currentWorkoutStep->getLoopCount());
 		sbPauseBetweenRepeats->setValue(currentWorkoutStep->getLoopPause());
 	}
@@ -151,7 +157,10 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	{
 		edStepCaption->setText("");
 		sbDelayBeforeStart->setValue(0);
+		cbPauseBeeps->setChecked(false);
 		sbStepDuration->setValue(0);
+		sbStepAttempts->setValue(0);
+		cbAttemptBeeps->setChecked(false);
 		sbStepRepeatCount->setValue(0);
 		sbPauseBetweenRepeats->setValue(0);
 	}
@@ -263,9 +272,7 @@ void WorkoutEditor::selectedWorkoutChanged()
 	auto workout = getSelectedWorkout();
 	if (workout)
 	{
-		auto doc = QJsonDocument(workout->getJson().toObject());
-		edWorkout->setPlainText(doc.toJson());
-
+		stepsTitle->setText(tr("Steps for workout \"%1\"").arg(workout->getTitle()));
 		listWorkoutSteps->clear();
 		for (auto& step: workout->getSteps())
 		{
@@ -273,6 +280,10 @@ void WorkoutEditor::selectedWorkoutChanged()
 			item->setData(idRole, step->getId());
 		}
 		listWorkoutSteps->setCurrentRow(0);
+	}
+	else
+	{
+		stepsTitle->setText(tr("No workout selected"));
 	}
 }
 
