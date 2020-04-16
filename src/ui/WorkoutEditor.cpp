@@ -33,7 +33,7 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	auto actionDeleteWorkout = new QAction(QIcon(":/icons/delete_workout.svg"), tr("Delete selected workout"), this);
 	connect(actionDeleteWorkout, &QAction::triggered, this, &WorkoutEditor::deleteWorkout);
 
-	auto actionAddStepWork = new QAction(QIcon(":/icons/hurdle.svg"), tr("Add step to workout"), this);
+	auto actionAddStepWork = new QAction(QIcon(":/icons/add_step.svg"), tr("Add step to workout"), this);
 	connect(actionAddStepWork, &QAction::triggered, this, &WorkoutEditor::addStep);
 
 	auto actionDeleteStep = new QAction(QIcon(":/icons/delete_step.svg"), tr("Delete step from workout"), this);

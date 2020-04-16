@@ -23,6 +23,5 @@
         <file>icons/delete_step.svg</file>
         <file>icons/down.svg</file>
         <file>icons/up.svg</file>
-        <file>icons/hurdle.svg</file>
     </qresource>
 </RCC>
