@@ -49,7 +49,8 @@ SOURCES += \
     src/ui/WorkoutEditor.cpp \
     src/Workouts/Workout.cpp \
     src/Workouts/WorkoutStep.cpp \
-    src/Workouts/Workouts.cpp
+    src/Workouts/Workouts.cpp \
+    src/ui/WorkoutSelector.cpp
 
 HEADERS += \
     src/Application.h \
@@ -62,13 +63,15 @@ HEADERS += \
     src/Workouts/WorkoutStep.h \
     src/Workouts/Workouts.h \
     src/ConfigItem.h \
-    src/ItemWithId.h
+    src/ItemWithId.h \
+    src/ui/WorkoutSelector.h
 
 FORMS += \
     src/ui/MainWindow.ui \
     src/ui/AboutDialog.ui \
     src/ui/ConfigDialog.ui \
-    src/ui/WorkoutEditor.ui
+    src/ui/WorkoutEditor.ui \
+    src/ui/WorkoutSelector.ui
 
 RESOURCES += \
     res/resource.qrc
