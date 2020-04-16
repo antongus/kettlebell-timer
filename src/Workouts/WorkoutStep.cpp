@@ -13,17 +13,37 @@
 
 #include "WorkoutStep.h"
 
+namespace  {
+/// struct for holding variable names
+struct VarNames
+{
+	static constexpr char caption[]            = "caption";
+	static constexpr char initialDelay[]       = "initialDelay";
+	static constexpr char duration[]           = "duration";
+	static constexpr char attempts[]           = "attempts";
+	static constexpr char attemptBeeps[]       = "attemptBeeps";
+	static constexpr char loopCount[]          = "loopCount";
+	static constexpr char loopPause[]          = "loopPause";
+	static constexpr char pauseBeeps[]         = "pauseBeeps";
+};
+
+}
+
+
 /**
  * get item configuration (as JSON)
  */
 QJsonValue WorkoutStep::getJson() const
 {
 	QJsonObject obj;
-	obj["caption"] = caption;
-	obj["delayBeforeStart"] = delayBeforeStart;
-	obj["duration"] = duration;
-	obj["repeatCount"] = repeatCount;
-	obj["pauseBetweenRepeats"] = pauseBetweenRepeats;
+	obj[VarNames::caption] = caption;
+	obj[VarNames::initialDelay] = initialDelay;
+	obj[VarNames::duration] = duration;
+	obj[VarNames::attempts] = attempts;
+	obj[VarNames::attemptBeeps] = attemptBeeps;
+	obj[VarNames::loopCount] = loopCount;
+	obj[VarNames::loopPause] = loopPause;
+	obj[VarNames::pauseBeeps] = pauseBeeps;
 	return obj;
 }
 
@@ -33,9 +53,12 @@ QJsonValue WorkoutStep::getJson() const
 void WorkoutStep::setJson(const QJsonValue& conf)
 {
 	auto obj = conf.toObject();
-	caption = obj["caption"].toString(caption);
-	delayBeforeStart = obj["delayBeforeStart"].toInt(10 * second);
-	duration = obj["duration"].toInt(20 * minute);
-	repeatCount = obj["repeatCount"].toInt(1);
-	pauseBetweenRepeats = obj["pauseBetweenRepeats"].toInt(5 * second);
+	caption        = obj[VarNames::caption].toString(caption);
+	initialDelay   = obj[VarNames::initialDelay].toInt(10 * second);
+	duration       = obj[VarNames::duration].toInt(10 * minute);
+	attempts       = obj[VarNames::attempts].toInt(200);
+	attemptBeeps   = obj[VarNames::attemptBeeps].toBool();
+	loopCount      = obj[VarNames::loopCount].toInt(1);
+	loopPause      = obj[VarNames::loopPause].toInt(5 * second);
+	pauseBeeps     = obj[VarNames::pauseBeeps].toBool();
 }

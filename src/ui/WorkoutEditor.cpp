@@ -115,10 +115,10 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	{
 		auto caption = edStepCaption->text();
 		currentWorkoutStep->setCaption(caption);
-		currentWorkoutStep->setDelayBeforeStart(sbDelayBeforeStart->value());
+		currentWorkoutStep->setInitialDelay(sbDelayBeforeStart->value());
 		currentWorkoutStep->setDuration(sbStepDuration->value());
-		currentWorkoutStep->setRepeatCount(sbStepRepeatCount->value());
-		currentWorkoutStep->setPauseBetweenRepeats(sbPauseBetweenRepeats->value());
+		currentWorkoutStep->setLoopCount(sbStepRepeatCount->value());
+		currentWorkoutStep->setLoopPause(sbPauseBetweenRepeats->value());
 		auto id = currentWorkoutStep->getId();
 		for (auto row = 0; row < listWorkoutSteps->count(); ++row)
 		{
@@ -142,10 +142,10 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	if (hasStep)
 	{
 		edStepCaption->setText(currentWorkoutStep->getCaption());
-		sbDelayBeforeStart->setValue(currentWorkoutStep->getDelayBeforeStart());
+		sbDelayBeforeStart->setValue(currentWorkoutStep->getInitialDelay());
 		sbStepDuration->setValue(currentWorkoutStep->getDuration());
-		sbStepRepeatCount->setValue(currentWorkoutStep->getRepeatCount());
-		sbPauseBetweenRepeats->setValue(currentWorkoutStep->getPauseBetweenRepeats());
+		sbStepRepeatCount->setValue(currentWorkoutStep->getLoopCount());
+		sbPauseBetweenRepeats->setValue(currentWorkoutStep->getLoopPause());
 	}
 	else
 	{
