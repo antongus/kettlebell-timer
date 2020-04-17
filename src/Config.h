@@ -19,6 +19,7 @@ class QJsonObject;
 
 struct Config
 {
+	int workoutIndex;
 	QString countdownSoundFileName;
 	QString startSoundFileName;
 	QString finishSoundFileName;
