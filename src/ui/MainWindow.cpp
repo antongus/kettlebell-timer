@@ -45,12 +45,13 @@ MainWindow::MainWindow(QWidget *parent)
 	workouts = std::make_unique<Workouts>();
 	loadWorkouts();
 
+	loadWorkout(workouts->getWorkout(static_cast<unsigned>(config.workoutIndex)));
+
 	tickSound = new QSoundEffect(this);
 	metronomSound = new QSoundEffect(this);
 	startSound = new QSoundEffect(this);
 	finishSound = new QSoundEffect(this);
 	loadSounds();
-	stopExersise();
 	connectHandlers();
 
 	timer = new QTimer(this);
@@ -133,12 +134,17 @@ void MainWindow::editWorkouts()
 
 void MainWindow::selectWorkout()
 {
-	WorkoutSelector workoutSelector(workouts.get(), this);
+	WorkoutSelector workoutSelector(workouts.get(), config.workoutIndex, this);
 	if (workoutSelector.exec() == QDialog::Accepted)
 	{
-		auto newWorkout = workouts->find(workoutSelector.getSelectedWorkoutId());
-		if (newWorkout)
-			workout = newWorkout;
+		auto index = workoutSelector.getSelectedWorkoutIndex();
+		if (index != config.workoutIndex)
+		{
+			config.workoutIndex = index;
+			saveConfig();
+		}
+		auto newWorkout = workouts->getWorkout(static_cast<unsigned>(index));
+		loadWorkout(newWorkout);
 	}
 }
 
@@ -261,6 +267,21 @@ void MainWindow::saveWorkouts()
 	}
 	QJsonDocument jsonDocument(workouts->getJson().toObject());
 	file.write(jsonDocument.toJson());
+}
+
+void MainWindow::loadWorkout(std::shared_ptr<Workout> newWorkout)
+{
+	stopExersise();
+	workout = newWorkout;
+	if (workout)
+	{
+		labelSelectedWorkout->setText(workout->getTitle());
+	}
+	else
+	{
+		labelSelectedWorkout->setText("---");
+	}
+
 }
 
 void MainWindow::logMessage(QString const& message)

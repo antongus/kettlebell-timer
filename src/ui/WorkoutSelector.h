@@ -23,11 +23,13 @@ class WorkoutSelector
 	Q_OBJECT
 
 public:
-	explicit WorkoutSelector(Workouts* workouts, QWidget *parent = nullptr);
+	explicit WorkoutSelector(Workouts* workouts, int currentIndex, QWidget *parent = nullptr);
 	~WorkoutSelector();
 
-	int getSelectedWorkoutId();
+	int getSelectedWorkoutIndex();
 
 private:
 	Workouts* workouts;
+
+	void listDoubleClicked(const QModelIndex& index);
 };

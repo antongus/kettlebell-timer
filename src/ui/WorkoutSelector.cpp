@@ -1,6 +1,6 @@
 #include "WorkoutSelector.h"
 
-WorkoutSelector::WorkoutSelector(Workouts* workouts, QWidget *parent)
+WorkoutSelector::WorkoutSelector(Workouts* workouts, int currentIndex, QWidget *parent)
     : QDialog(parent)
     , workouts(workouts)
 {
@@ -8,13 +8,14 @@ WorkoutSelector::WorkoutSelector(Workouts* workouts, QWidget *parent)
 
 	connect(pbOk, &QPushButton::clicked, [=]{done(QDialog::Accepted); });
 	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
+	connect(listWorkouts, &QListWidget::doubleClicked, this, &WorkoutSelector::listDoubleClicked);
 
 	for (auto& workout : *workouts)
 	{
 		auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
 		item->setData(Qt::UserRole, workout->getId());
 	}
-	listWorkouts->setCurrentRow(0);
+	listWorkouts->setCurrentRow(currentIndex);
 }
 
 
@@ -22,15 +23,13 @@ WorkoutSelector::~WorkoutSelector()
 {
 }
 
-int WorkoutSelector::getSelectedWorkoutId()
+int WorkoutSelector::getSelectedWorkoutIndex()
 {
-	auto item = listWorkouts->currentItem();
-	if (item)
-	{
-		bool ok { false };
-		auto id = item->data(Qt::UserRole).toInt(&ok);
-		if (ok)
-			return id;
-	}
-	return -1;
+	return listWorkouts->currentRow();
+}
+
+void WorkoutSelector::listDoubleClicked(const QModelIndex &index)
+{
+	if (index.isValid())
+		done(QDialog::Accepted);
 }

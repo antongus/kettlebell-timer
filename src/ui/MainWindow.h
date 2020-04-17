@@ -86,4 +86,5 @@ private:
 
 	void loadWorkouts();
 	void saveWorkouts();
+	void loadWorkout(std::shared_ptr<Workout> newWorkout);
 };
