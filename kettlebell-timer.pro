@@ -68,7 +68,8 @@ HEADERS += \
     src/ItemWithId.h \
     src/ui/WorkoutSelector.h \
     src/Workouts/WorkoutPlayer.h \
-    src/Workouts/WorkoutSounds.h
+    src/Workouts/WorkoutSounds.h \
+    src/Workouts/CountdownTimer.h
 
 FORMS += \
     src/ui/MainWindow.ui \
