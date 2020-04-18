@@ -60,6 +60,13 @@ void Workout::setJson(const QJsonValue& conf)
 	}
 }
 
+std::shared_ptr<WorkoutStep> Workout::getStep(unsigned index)
+{
+	if (index >= steps.size())
+		return nullptr;
+	return steps[index];
+}
+
 std::shared_ptr<WorkoutStep> Workout::findStep(int id)
 {
 	auto findById = [&](auto& w) { return id == w->getId(); };
