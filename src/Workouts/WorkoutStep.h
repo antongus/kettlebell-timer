@@ -36,19 +36,15 @@ public:
 	int  getInitialDelay() const { return initialDelay; }
 	int  getDuration() const { return duration; }
 	int  getAttempts() const { return attempts; }
-	bool getAttemptBeeps() const { return attemptBeeps; }
 	int  getLoopCount() const { return loopCount; }
 	int  getLoopPause() const { return loopPause; }
-	bool getPauseBeeps() const { return pauseBeeps; }
 
 	void setCaption(QString value) { caption = value; }
 	void setInitialDelay(int value) { initialDelay = value; }
 	void setDuration(int value) { duration = value; }
 	void setAttempts(int value) { attempts = value; }
-	void setAttemptBeeps(bool value) { attemptBeeps = value; }
 	void setLoopCount(int value) { loopCount = value; }
 	void setLoopPause(int value) { loopPause = value; }
-	void setPauseBeeps(bool value) { pauseBeeps = value; }
 
 protected:
 	static constexpr int second { 1 };
@@ -58,9 +54,7 @@ protected:
 	int  initialDelay { 10 * second };        //!< delay before start (seconds)
 	int  duration { 10 * minute };            //!< step duration (seconds)
 	int  attempts { 200 };                    //!< attempts during step
-	bool attemptBeeps { true };               //!< make beeps on every attempt?
 	int  loopCount { 1 };                     //!< how many times should repeat step
 	int  loopPause { 5 * second };            //!< pause before second and all next repeats in loop
-	bool pauseBeeps { true };                 //!< make beeps every second when pause?
 
 };

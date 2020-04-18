@@ -16,6 +16,11 @@
     <height>600</height>
    </size>
   </property>
+  <property name="font">
+   <font>
+    <pointsize>11</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Workout editor</string>
   </property>
@@ -351,6 +356,12 @@
          </item>
          <item>
           <widget class="QListWidget" name="listWorkoutSteps">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>2</verstretch>
+            </sizepolicy>
+           </property>
            <property name="editTriggers">
             <set>QAbstractItemView::NoEditTriggers</set>
            </property>
@@ -361,24 +372,17 @@
          </item>
          <item>
           <widget class="QWidget" name="widget_3" native="true">
-           <property name="minimumSize">
-            <size>
-             <width>0</width>
-             <height>290</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>1</verstretch>
+            </sizepolicy>
            </property>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Step title</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0" colspan="4">
+            <item row="7" column="0" colspan="3">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="title">
-               <string>Step repeat</string>
+               <string>Step legs</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
                <property name="leftMargin">
@@ -399,76 +403,14 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_6">
                  <property name="text">
-                  <string>Repeat count</string>
+                  <string>Leg count</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
                 <widget class="QSpinBox" name="sbStepRepeatCount"/>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>Pause before repeat</string>
-                 </property>
-                </widget>
-               </item>
                <item row="1" column="1">
-                <widget class="QSpinBox" name="sbPauseBetweenRepeats">
-                 <property name="suffix">
-                  <string> s</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="1" colspan="3">
-             <widget class="QLineEdit" name="edStepCaption"/>
-            </item>
-            <item row="4" column="0" colspan="4">
-             <widget class="QGroupBox" name="groupBox_2">
-              <property name="title">
-               <string>Step content</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_3">
-               <property name="leftMargin">
-                <number>4</number>
-               </property>
-               <property name="topMargin">
-                <number>4</number>
-               </property>
-               <property name="rightMargin">
-                <number>4</number>
-               </property>
-               <property name="bottomMargin">
-                <number>4</number>
-               </property>
-               <property name="spacing">
-                <number>4</number>
-               </property>
-               <item row="1" column="2">
-                <widget class="QCheckBox" name="cbAttemptBeeps">
-                 <property name="text">
-                  <string>Ticks</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="1">
-                <widget class="QSpinBox" name="sbStepAttempts">
-                 <property name="maximum">
-                  <number>999</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_8">
-                 <property name="text">
-                  <string>Attempt count</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="0" column="1">
                 <widget class="QSpinBox" name="sbStepDuration">
                  <property name="suffix">
                   <string> s</string>
@@ -478,17 +420,48 @@
                  </property>
                 </widget>
                </item>
-               <item row="0" column="0">
+               <item row="3" column="1">
+                <widget class="QSpinBox" name="sbPauseBetweenRepeats">
+                 <property name="suffix">
+                  <string> s</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
                 <widget class="QLabel" name="label_5">
                  <property name="text">
-                  <string>Duration</string>
+                  <string>Leg duration</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QSpinBox" name="sbStepAttempts">
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Attempts per leg</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>Pause before leg</string>
                  </property>
                 </widget>
                </item>
               </layout>
              </widget>
             </item>
-            <item row="1" column="0" colspan="4">
+            <item row="0" column="1" colspan="2">
+             <widget class="QLineEdit" name="edStepCaption"/>
+            </item>
+            <item row="1" column="0" colspan="3">
              <widget class="QGroupBox" name="groupBox">
               <property name="title">
                <string>Pause before start</string>
@@ -509,13 +482,6 @@
                <property name="spacing">
                 <number>4</number>
                </property>
-               <item row="0" column="2">
-                <widget class="QCheckBox" name="cbPauseBeeps">
-                 <property name="text">
-                  <string>Beeps</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="1">
                 <widget class="QSpinBox" name="sbDelayBeforeStart">
                  <property name="suffix">
@@ -531,6 +497,13 @@
                 </widget>
                </item>
               </layout>
+             </widget>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Step title</string>
+              </property>
              </widget>
             </item>
            </layout>

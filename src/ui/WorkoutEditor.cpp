@@ -118,10 +118,8 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	auto const hasStep = currentWorkoutStep != nullptr;
 	edStepCaption->setEnabled(hasStep);
 	sbDelayBeforeStart->setEnabled(hasStep);
-	cbPauseBeeps->setEnabled(hasStep);
 	sbStepDuration->setEnabled(hasStep);
 	sbStepAttempts->setEnabled(hasStep);
-	cbAttemptBeeps->setEnabled(hasStep);
 	sbStepRepeatCount->setEnabled(hasStep);
 	sbPauseBetweenRepeats->setEnabled(hasStep);
 
@@ -129,10 +127,8 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	{
 		edStepCaption->setText(currentWorkoutStep->getCaption());
 		sbDelayBeforeStart->setValue(currentWorkoutStep->getInitialDelay());
-		cbPauseBeeps->setChecked(currentWorkoutStep->getPauseBeeps());
 		sbStepDuration->setValue(currentWorkoutStep->getDuration());
 		sbStepAttempts->setValue(currentWorkoutStep->getAttempts());
-		cbAttemptBeeps->setChecked(currentWorkoutStep->getAttemptBeeps());
 		sbStepRepeatCount->setValue(currentWorkoutStep->getLoopCount());
 		sbPauseBetweenRepeats->setValue(currentWorkoutStep->getLoopPause());
 	}
@@ -140,10 +136,8 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	{
 		edStepCaption->setText("");
 		sbDelayBeforeStart->setValue(0);
-		cbPauseBeeps->setChecked(false);
 		sbStepDuration->setValue(0);
 		sbStepAttempts->setValue(0);
-		cbAttemptBeeps->setChecked(false);
 		sbStepRepeatCount->setValue(0);
 		sbPauseBetweenRepeats->setValue(0);
 	}
@@ -257,10 +251,8 @@ void WorkoutEditor::saveCurrentWorkoutStep()
 		auto caption = edStepCaption->text();
 		currentWorkoutStep->setCaption(caption);
 		currentWorkoutStep->setInitialDelay(sbDelayBeforeStart->value());
-		currentWorkoutStep->setPauseBeeps(cbPauseBeeps->isChecked());
 		currentWorkoutStep->setDuration(sbStepDuration->value());
 		currentWorkoutStep->setAttempts(sbStepAttempts->value());
-		currentWorkoutStep->setAttemptBeeps(cbAttemptBeeps->isChecked());
 		currentWorkoutStep->setLoopCount(sbStepRepeatCount->value());
 		currentWorkoutStep->setLoopPause(sbPauseBetweenRepeats->value());
 		auto id = currentWorkoutStep->getId();

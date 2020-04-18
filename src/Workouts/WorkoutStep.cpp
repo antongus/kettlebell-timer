@@ -21,10 +21,8 @@ struct VarNames
 	static constexpr char initialDelay[]       = "initialDelay";
 	static constexpr char duration[]           = "duration";
 	static constexpr char attempts[]           = "attempts";
-	static constexpr char attemptBeeps[]       = "attemptBeeps";
 	static constexpr char loopCount[]          = "loopCount";
 	static constexpr char loopPause[]          = "loopPause";
-	static constexpr char pauseBeeps[]         = "pauseBeeps";
 };
 
 }
@@ -40,10 +38,8 @@ QJsonValue WorkoutStep::getJson() const
 	obj[VarNames::initialDelay] = initialDelay;
 	obj[VarNames::duration] = duration;
 	obj[VarNames::attempts] = attempts;
-	obj[VarNames::attemptBeeps] = attemptBeeps;
 	obj[VarNames::loopCount] = loopCount;
 	obj[VarNames::loopPause] = loopPause;
-	obj[VarNames::pauseBeeps] = pauseBeeps;
 	return obj;
 }
 
@@ -57,8 +53,6 @@ void WorkoutStep::setJson(const QJsonValue& conf)
 	initialDelay   = obj[VarNames::initialDelay].toInt(10 * second);
 	duration       = obj[VarNames::duration].toInt(10 * minute);
 	attempts       = obj[VarNames::attempts].toInt(200);
-	attemptBeeps   = obj[VarNames::attemptBeeps].toBool(true);
 	loopCount      = obj[VarNames::loopCount].toInt(1);
 	loopPause      = obj[VarNames::loopPause].toInt(5 * second);
-	pauseBeeps     = obj[VarNames::pauseBeeps].toBool(true);
 }
