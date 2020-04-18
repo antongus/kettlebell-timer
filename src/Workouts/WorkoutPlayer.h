@@ -30,6 +30,7 @@ public:
 signals:
 	void displayTicks(QString text);
 	void displayAttempts(QString text);
+	void displayStage(QString text);
 	void done();
 
 public slots:
@@ -49,11 +50,11 @@ private:
 
 	enum class Stage
 	{
-		Idle,             //!< not started
-		InitialPause,     //!< initial pause
-		Body,             //!< step body
-		BodyPause,        //!< pause between body repeat
-		Done,             //!< done
+		Idle,            //!< not started
+		InitialPause,    //!< initial pause
+		Leg,             //!< step leg
+		LegPause,        //!< pause before next leg
+		Done,            //!< done
 	};
 
 	Stage stage { Stage::Idle };
@@ -65,11 +66,11 @@ private:
 	int nextAttemptTicks;
 	int attemptCounter;
 	int stepAttempts;
-	int stepLoops;
+	int stepLegs;
 
 	void timerFunction();
 	void updateTicks(int ticks);
 	void startNextStep();
 	void startPreDelay();
-	void startBody();
+	void startLeg();
 };

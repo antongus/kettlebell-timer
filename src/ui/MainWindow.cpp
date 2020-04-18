@@ -165,6 +165,7 @@ void MainWindow::startStopClicked()
 		player = std::make_shared<WorkoutPlayer>(workout);
 		connect(player.get(), &WorkoutPlayer::displayTicks, [&](QString text){ lcdTimer->display(text); });
 		connect(player.get(), &WorkoutPlayer::displayAttempts, [&](QString text){ lcdAttempts->display(text); });
+		connect(player.get(), &WorkoutPlayer::displayStage, [&](QString text){ labelWorkoutStepName->setText(text); });
 
 		pbStart->setText(tr("Stop! (F2)"));
 		pbStart->setToolTip(tr("Stop exersise"));
@@ -186,7 +187,6 @@ void MainWindow::stopWorkout()
 		pbStart->setText(tr("Start! (F2)"));
 		pbStart->setToolTip(tr("Start exersise"));
 		pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
-		labelTimer->setText(tr("Timer"));
 	}
 }
 
@@ -224,11 +224,11 @@ void MainWindow::setActiveWorkout(std::shared_ptr<Workout> newWorkout)
 	workout = newWorkout;
 	if (workout)
 	{
-		labelSelectedWorkout->setText(workout->getTitle());
+		labelWorkoutName->setText(workout->getTitle());
 	}
 	else
 	{
-		labelSelectedWorkout->setText("---");
+		labelWorkoutName->setText(tr("No workout selected"));
 	}
 }
 

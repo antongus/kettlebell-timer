@@ -35,6 +35,7 @@ void WorkoutPlayer::stop()
 {
 	timer->stop();
 	stage = Stage::Done;
+	emit displayStage(tr("Workout finished"));
 }
 
 void WorkoutPlayer::timerFunction()
@@ -56,11 +57,11 @@ void WorkoutPlayer::timerFunction()
 		if (timeCounter.isElapsed())
 		{
 			sounds->playStart();
-			startBody();
+			startLeg();
 		}
 		break;
 
-	case Stage::Body:
+	case Stage::Leg:
 		timeCounter.update(ticks);
 		updateTicks(timeCounter.getTicks());
 		if (stepAttempts) // need to count attempts
@@ -76,24 +77,30 @@ void WorkoutPlayer::timerFunction()
 		if (timeCounter.isElapsed())
 		{
 			sounds->playFinish();
-			startBody();
+			if (stepLegs) // need to repeat the body?
+			{
+				timeCounter.start(step->getLoopPause() * 1000);
+				stage = Stage::LegPause;
+				emit displayStage(tr("%1: Pause between legs").arg(step->getCaption()));
+			}
+			else
+				startNextStep();
 		}
 		break;
 
-	case Stage::BodyPause:
+	case Stage::LegPause:
 		if (timeCounter.update(ticks))
 			sounds->playPauseTick();
 		updateTicks(timeCounter.getTicks());
 		if (timeCounter.isElapsed())
 		{
-			startBody();
+			startLeg();
 		}
 		break;
 
 	case Stage::Done:
 		sounds->playFinish();
 		updateTicks(0);
-		stage = Stage::Idle;
 		break;
 	}
 }
@@ -103,7 +110,7 @@ void WorkoutPlayer::updateTicks(int ticks)
 	auto seconds = (ticks + 999) / 1000;
 	auto minutes = seconds / 60;
 	seconds %= 60;
-	if (displayTens && stage == Stage::Body)
+	if (displayTens && stage == Stage::Leg)
 	{
 		auto tens = ((ticks + 99) / 100) % 10;
 		auto text = QString("%1:%2.%3").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')).arg(tens);
@@ -129,12 +136,12 @@ void WorkoutPlayer::startNextStep()
 	}
 
 	// load counters for step
-	stepLoops = step->getLoopCount();
+	stepLegs = step->getLoopCount();
 
 	if (step->getInitialDelay())
 		startPreDelay();
 	else
-		startBody();
+		startLeg();
 }
 
 /// start pre-delay stage
@@ -148,11 +155,14 @@ void WorkoutPlayer::startPreDelay()
 
 	// zero-out attempt counter
 	emit displayAttempts("0");
+
+	// display stage
+	emit displayStage(tr("%1: Pause before start").arg(step->getCaption()));
 }
 
-void WorkoutPlayer::startBody()
+void WorkoutPlayer::startLeg()
 {
-	if (stepLoops--) // step has loops to play
+	if (stepLegs--) // current step has a legs to play
 	{
 		// start countdown timer for step
 		auto duration = step->getDuration() * 1000;
@@ -167,10 +177,15 @@ void WorkoutPlayer::startBody()
 			nextAttemptTicks = duration - (ticksPerAttempt * 3) / 4; // first tick after 3/4 of interval
 		}
 		emit displayAttempts("0");
-		stage = Stage::Body;
+		stage = Stage::Leg;
+		auto legs = step->getLoopCount();
+		auto caption = step->getCaption();
+		if (step->getLoopCount() > 1)
+			emit displayStage(tr("%1: leg %2 of %3").arg(caption).arg(legs - stepLegs).arg(legs));
+		else
+			emit displayStage(tr("%1: leg").arg(caption));
 		sounds->playStart();
 	}
 	else
 		startNextStep();
 }
-
