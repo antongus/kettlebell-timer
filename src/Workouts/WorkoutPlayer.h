@@ -19,6 +19,7 @@
 
 #include "Workout.h"
 #include "WorkoutSounds.h"
+#include "CountdownTimer.h"
 
 class WorkoutPlayer : public QObject
 {
@@ -48,26 +49,27 @@ private:
 
 	enum class Stage
 	{
-		Idle,
-		PreCount,
-		Count,
-		Pause,
-		Done,
+		Idle,             //!< not started
+		InitialPause,     //!< initial pause
+		Body,             //!< step body
+		BodyPause,        //!< pause between body repeat
+		Done,             //!< done
 	};
 
 	Stage stage { Stage::Idle };
 	qint64 previousTicks;
 
-	int preCounter;
-	int counter;
-	int metronomTicks;
-	int attemptsCount;
-	int loopCounter;
-	int metronomStep;
-	int nextCountdownTicks;
-	int nextMetronomTicks;
+	CountdownTimer timeCounter;
+
+	int ticksPerAttempt;
+	int nextAttemptTicks;
+	int attemptCounter;
+	int stepAttempts;
+	int stepLoops;
 
 	void timerFunction();
 	void updateTicks(int ticks);
 	void startNextStep();
+	void startPreDelay();
+	void startBody();
 };

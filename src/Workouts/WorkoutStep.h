@@ -55,12 +55,12 @@ protected:
 	static constexpr int minute { 60 * second };
 
 	QString caption;                          //!< step title
-	int  initialDelay { 10 * second };         //!< delay before start (seconds)
-	int  duration { 10 * minute };             //!< step duration (seconds)
-	int  attempts { 200 };                     //!< attempts during step
+	int  initialDelay { 10 * second };        //!< delay before start (seconds)
+	int  duration { 10 * minute };            //!< step duration (seconds)
+	int  attempts { 200 };                    //!< attempts during step
 	bool attemptBeeps { true };               //!< make beeps on every attempt?
-	int  loopCount { 1 };                      //!< how many times should repeat step
-	int  loopPause { 5 * second };             //!< pause before second and all next repeats in loop
+	int  loopCount { 1 };                     //!< how many times should repeat step
+	int  loopPause { 5 * second };            //!< pause before second and all next repeats in loop
 	bool pauseBeeps { true };                 //!< make beeps every second when pause?
 
 };
