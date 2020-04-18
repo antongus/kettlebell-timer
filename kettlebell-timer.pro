@@ -50,7 +50,9 @@ SOURCES += \
     src/Workouts/Workout.cpp \
     src/Workouts/WorkoutStep.cpp \
     src/Workouts/Workouts.cpp \
-    src/ui/WorkoutSelector.cpp
+    src/ui/WorkoutSelector.cpp \
+    src/Workouts/WorkoutPlayer.cpp \
+    src/Workouts/WorkoutSounds.cpp
 
 HEADERS += \
     src/Application.h \
@@ -64,7 +66,9 @@ HEADERS += \
     src/Workouts/Workouts.h \
     src/ConfigItem.h \
     src/ItemWithId.h \
-    src/ui/WorkoutSelector.h
+    src/ui/WorkoutSelector.h \
+    src/Workouts/WorkoutPlayer.h \
+    src/Workouts/WorkoutSounds.h
 
 FORMS += \
     src/ui/MainWindow.ui \
