@@ -172,6 +172,7 @@ void MainWindow::startStopClicked()
 		player->start();
 	}
 	pbStart->setEnabled(true);
+	pbStart->setShortcut(QKeySequence("F2"));
 }
 
 void MainWindow::stopWorkout()
