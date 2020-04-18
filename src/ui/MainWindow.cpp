@@ -120,6 +120,7 @@ void MainWindow::editWorkouts()
 	{
 		workouts->setJson(workoutEditor.getJson());
 		saveWorkouts();
+		setActiveWorkout(workouts->getWorkout(static_cast<unsigned>(config.workoutIndex)));
 	}
 }
 
