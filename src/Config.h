@@ -20,10 +20,10 @@ class QJsonObject;
 struct Config
 {
 	int workoutIndex;
-	QString countdownSoundFileName;
+	QString pauseTickSoundFileName;
 	QString startSoundFileName;
 	QString finishSoundFileName;
-	QString metronomSoundFileName;
+	QString attemptTickSoundFileName;
 
 	void loadDefaults();
 	void fromJson(QJsonObject const& conf);

@@ -38,19 +38,19 @@ struct VarNames
 
 void Config::loadDefaults()
 {
-	countdownSoundFileName = "bink.wav";
+	pauseTickSoundFileName = "bink.wav";
 	startSoundFileName = "start.wav";
 	finishSoundFileName = "start.wav";
-	metronomSoundFileName = "tick.wav";
+	attemptTickSoundFileName = "tick.wav";
 }
 
 void Config::fromJson(QJsonObject const& conf)
 {
 	const QJsonObject soundsSettings = conf[SectionNames::sounds].toObject();
-	countdownSoundFileName = soundsSettings[VarNames::pauseSound].toString().trimmed();
+	pauseTickSoundFileName = soundsSettings[VarNames::pauseSound].toString().trimmed();
 	startSoundFileName = soundsSettings[VarNames::startSound].toString().trimmed();
 	finishSoundFileName = soundsSettings[VarNames::stopSound].toString().trimmed();
-	metronomSoundFileName = soundsSettings[VarNames::tickSound].toString().trimmed();
+	attemptTickSoundFileName = soundsSettings[VarNames::tickSound].toString().trimmed();
 	const QJsonObject workoutSettings = conf[SectionNames::workout].toObject();
 	workoutIndex = workoutSettings[VarNames::workoutIndex].toInt(0);
 }
@@ -58,10 +58,10 @@ void Config::fromJson(QJsonObject const& conf)
 void Config::toJson(QJsonObject& conf)
 {
 	QJsonObject soundSettings = conf[SectionNames::sounds].toObject();
-	soundSettings[VarNames::pauseSound] = countdownSoundFileName;
+	soundSettings[VarNames::pauseSound] = pauseTickSoundFileName;
 	soundSettings[VarNames::startSound] = startSoundFileName;
 	soundSettings[VarNames::stopSound] = finishSoundFileName;
-	soundSettings[VarNames::tickSound] = metronomSoundFileName;
+	soundSettings[VarNames::tickSound] = attemptTickSoundFileName;
 	conf[SectionNames::sounds] = soundSettings;
 
 	QJsonObject workoutSettings = conf[SectionNames::workout].toObject();

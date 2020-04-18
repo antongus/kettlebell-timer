@@ -46,18 +46,18 @@ void ConfigDialog::SetConfig(Config const& conf)
 		else
 			combo->setCurrentIndex(pos);
 	};
-	setValue(cbCountdownSound, conf.countdownSoundFileName);
+	setValue(cbCountdownSound, conf.pauseTickSoundFileName);
 	setValue(cbStartSound, conf.startSoundFileName);
 	setValue(cbFinishSound, conf.finishSoundFileName);
-	setValue(cbMetronomSound, conf.metronomSoundFileName);
+	setValue(cbMetronomSound, conf.attemptTickSoundFileName);
 }
 
 void ConfigDialog::GetConfig(Config& conf)
 {
-	conf.countdownSoundFileName = cbCountdownSound->currentText();
+	conf.pauseTickSoundFileName = cbCountdownSound->currentText();
 	conf.startSoundFileName = cbStartSound->currentText();
 	conf.finishSoundFileName = cbFinishSound->currentText();
-	conf.metronomSoundFileName = cbMetronomSound->currentText();
+	conf.attemptTickSoundFileName = cbMetronomSound->currentText();
 }
 
 void ConfigDialog::playSound(const QString& sound)
