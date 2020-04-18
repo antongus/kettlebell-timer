@@ -116,7 +116,10 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 		auto caption = edStepCaption->text();
 		currentWorkoutStep->setCaption(caption);
 		currentWorkoutStep->setInitialDelay(sbDelayBeforeStart->value());
+		currentWorkoutStep->setPauseBeeps(cbPauseBeeps->isChecked());
 		currentWorkoutStep->setDuration(sbStepDuration->value());
+		currentWorkoutStep->setAttempts(sbStepAttempts->value());
+		currentWorkoutStep->setAttemptBeeps(cbAttemptBeeps->isChecked());
 		currentWorkoutStep->setLoopCount(sbStepRepeatCount->value());
 		currentWorkoutStep->setLoopPause(sbPauseBetweenRepeats->value());
 		auto id = currentWorkoutStep->getId();
