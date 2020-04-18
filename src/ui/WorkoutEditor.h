@@ -50,6 +50,7 @@ private slots:
 	void deleteStep();
 	void moveStepUp();
 	void moveStepDown();
+	void saveCurrentWorkoutStep();
 	void selectedWorkoutChanged();
 	void selectedWorkoutStepChanged();
 

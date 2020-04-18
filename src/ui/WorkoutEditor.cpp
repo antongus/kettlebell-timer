@@ -23,7 +23,10 @@ WorkoutEditor::WorkoutEditor(QWidget *parent)
 	setupUi(this);
 
 	// Ok and Cancel buttons
-	connect(pbOk, &QPushButton::clicked, [=]{done(QDialog::Accepted); });
+	connect(pbOk, &QPushButton::clicked, [=]{
+		saveCurrentWorkoutStep();
+		done(QDialog::Accepted);
+	});
 	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
 
 	// create actions
@@ -110,30 +113,7 @@ std::shared_ptr<WorkoutStep> WorkoutEditor::getSelectedWorkoutStep()
  */
 void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 {
-	// save current step
-	if (currentWorkoutStep)
-	{
-		auto caption = edStepCaption->text();
-		currentWorkoutStep->setCaption(caption);
-		currentWorkoutStep->setInitialDelay(sbDelayBeforeStart->value());
-		currentWorkoutStep->setPauseBeeps(cbPauseBeeps->isChecked());
-		currentWorkoutStep->setDuration(sbStepDuration->value());
-		currentWorkoutStep->setAttempts(sbStepAttempts->value());
-		currentWorkoutStep->setAttemptBeeps(cbAttemptBeeps->isChecked());
-		currentWorkoutStep->setLoopCount(sbStepRepeatCount->value());
-		currentWorkoutStep->setLoopPause(sbPauseBetweenRepeats->value());
-		auto id = currentWorkoutStep->getId();
-		for (auto row = 0; row < listWorkoutSteps->count(); ++row)
-		{
-			auto item = listWorkoutSteps->item(row);
-			auto itemId = item->data(idRole).toInt();
-			if (id == itemId)
-			{
-				item->setText(caption);
-				break;
-			}
-		}
-	}
+	saveCurrentWorkoutStep();
 	currentWorkoutStep = step;
 	auto const hasStep = currentWorkoutStep != nullptr;
 	edStepCaption->setEnabled(hasStep);
@@ -267,6 +247,33 @@ void WorkoutEditor::moveStepDown()
 		auto newRow = row + 1;
 		listWorkoutSteps->insertItem(newRow, item);
 		listWorkoutSteps->setCurrentRow(newRow);
+	}
+}
+
+void WorkoutEditor::saveCurrentWorkoutStep()
+{
+	if (currentWorkoutStep)
+	{
+		auto caption = edStepCaption->text();
+		currentWorkoutStep->setCaption(caption);
+		currentWorkoutStep->setInitialDelay(sbDelayBeforeStart->value());
+		currentWorkoutStep->setPauseBeeps(cbPauseBeeps->isChecked());
+		currentWorkoutStep->setDuration(sbStepDuration->value());
+		currentWorkoutStep->setAttempts(sbStepAttempts->value());
+		currentWorkoutStep->setAttemptBeeps(cbAttemptBeeps->isChecked());
+		currentWorkoutStep->setLoopCount(sbStepRepeatCount->value());
+		currentWorkoutStep->setLoopPause(sbPauseBetweenRepeats->value());
+		auto id = currentWorkoutStep->getId();
+		for (auto row = 0; row < listWorkoutSteps->count(); ++row)
+		{
+			auto item = listWorkoutSteps->item(row);
+			auto itemId = item->data(idRole).toInt();
+			if (id == itemId)
+			{
+				item->setText(caption);
+				break;
+			}
+		}
 	}
 }
 
