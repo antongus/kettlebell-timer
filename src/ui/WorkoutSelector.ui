@@ -10,6 +10,12 @@
     <height>480</height>
    </rect>
   </property>
+  <property name="font">
+   <font>
+    <family>Verdana</family>
+    <pointsize>12</pointsize>
+   </font>
+  </property>
   <property name="windowTitle">
    <string>Workout selector</string>
   </property>
@@ -31,8 +37,19 @@
       </property>
       <item>
        <widget class="QLabel" name="label">
+        <property name="font">
+         <font>
+          <family>Verdana</family>
+          <pointsize>12</pointsize>
+          <weight>75</weight>
+          <bold>true</bold>
+         </font>
+        </property>
         <property name="text">
-         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p align=&quot;center&quot;&gt;&lt;span style=&quot; font-size:16pt; font-weight:600;&quot;&gt;Workout selector&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         <string>Workout selector</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
@@ -86,6 +103,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Verdana</family>
           <pointsize>12</pointsize>
          </font>
         </property>
@@ -139,6 +157,7 @@
         </property>
         <property name="font">
          <font>
+          <family>Verdana</family>
           <pointsize>12</pointsize>
          </font>
         </property>
