@@ -52,7 +52,7 @@ protected:
 
 	QString caption;                        //!< step title
 	int  startDelay { 10 * second };        //!< delay before start (seconds)
-	int  roundTime { 10 * minute };         //!< round duration (seconds)
+	int  roundTime { 1 * minute };          //!< round duration (seconds)
 	int  roundAttempts { 200 };             //!< attempts in round
 	int  roundCount { 1 };                  //!< how many rounds in step
 	int  restTime { 5 * second };           //!< rest between rounds

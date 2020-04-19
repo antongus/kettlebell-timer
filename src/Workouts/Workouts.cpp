@@ -122,25 +122,19 @@ void Workouts::remove(int id)
 
 void Workouts::createDefaultWorkouts()
 {
-	static constexpr char defaultWorkoutsJson[] =
-R"(
-{
-  "title": "Рывок 10 минут, темп 20",
-  "steps": [
-	{
-	  "type": "pause",
-	  "duration": 10000
-	},
-	{
-	  "title": "Рывок!",
-	  "type": "work",
-	  "duration": 600000,
-	  "attempts": 200
-	}
-  ]
-}
-)";
+	workouts.clear();
+	auto workout = add(tr("Tabata"));
+	auto step = workout->addStep(tr("Warmup"));
+	step->setStartDelay(10);
+	step->setRoundTime(60);
+	step->setRoundAttempts(6);  // beep every 10 seconds
+	step->setRoundCount(1);
 
-	auto& workout = workouts.emplace_back(std::make_shared<Workout>());
-	workout->setJson(defaultWorkoutsJson);
+	step = workout->addStep(tr("Tabata"));
+	step->setStartDelay(10);
+	step->setRoundTime(20);
+	step->setRoundAttempts(4);
+	step->setRoundCount(8);
+	step->setRestTime(10);
+
 }
