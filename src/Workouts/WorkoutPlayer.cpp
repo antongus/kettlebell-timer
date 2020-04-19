@@ -77,11 +77,20 @@ void WorkoutPlayer::timerFunction()
 		if (timeCounter.isElapsed())
 		{
 			sounds->playFinish();
-			if (stepLegs) // need to repeat the body?
+			if (remainingRounds) // need to repeat the body?
 			{
 				timeCounter.start(step->getRestTime() * 1000);
 				stage = Stage::LegPause;
-				emit displayStage(tr("%1: Pause between legs").arg(step->getCaption()));
+				auto rounds = step->getRoundCount();
+				auto caption = step->getCaption();
+				if (rounds > 1)
+					emit displayStage(tr("REST %1/%2 (%3)")
+				                      .arg(rounds - remainingRounds)
+				                      .arg(rounds)
+				                      .arg(caption)
+				                      );
+				else
+					emit displayStage(tr("REST (%1)").arg(caption));
 			}
 			else
 				startNextStep();
@@ -135,8 +144,7 @@ void WorkoutPlayer::startNextStep()
 		return;
 	}
 
-	// load counters for step
-	stepLegs = step->getRoundCount();
+	remainingRounds = step->getRoundCount();
 
 	if (step->getStartDelay())
 		startPreDelay();
@@ -157,12 +165,12 @@ void WorkoutPlayer::startPreDelay()
 	emit displayAttempts("0");
 
 	// display stage
-	emit displayStage(tr("%1: Pause before start").arg(step->getCaption()));
+	emit displayStage(tr("GET READY!"));
 }
 
 void WorkoutPlayer::startLeg()
 {
-	if (stepLegs--) // current step has a legs to play
+	if (remainingRounds--) // current step has a legs to play
 	{
 		// start countdown timer for step
 		auto duration = step->getRoundTime() * 1000;
@@ -178,12 +186,16 @@ void WorkoutPlayer::startLeg()
 		}
 		emit displayAttempts("0");
 		stage = Stage::Leg;
-		auto legs = step->getRoundCount();
+		auto rounds = step->getRoundCount();
 		auto caption = step->getCaption();
-		if (step->getRoundCount() > 1)
-			emit displayStage(tr("%1: leg %2 of %3").arg(caption).arg(legs - stepLegs).arg(legs));
+		if (rounds > 1)
+			emit displayStage(tr("WORK %1/%2 (%3)")
+		                      .arg(rounds - remainingRounds)
+		                      .arg(rounds)
+		                      .arg(caption)
+		                      );
 		else
-			emit displayStage(tr("%1: leg").arg(caption));
+			emit displayStage(tr("WORK (%1)").arg(caption));
 		sounds->playStart();
 	}
 	else

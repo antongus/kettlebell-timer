@@ -66,7 +66,7 @@ private:
 	int nextAttemptTicks;
 	int attemptCounter;
 	int stepAttempts;
-	int stepLegs;
+	int remainingRounds;
 
 	void timerFunction();
 	void updateTicks(int ticks);
