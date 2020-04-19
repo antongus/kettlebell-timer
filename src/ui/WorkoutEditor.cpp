@@ -228,6 +228,9 @@ void WorkoutEditor::moveStepUp()
 		auto newRow = row - 1;
 		listWorkoutSteps->insertItem(newRow, item);
 		listWorkoutSteps->setCurrentRow(newRow);
+		auto workout = getSelectedWorkout();
+		if (workout)
+			workout->swapSteps(row, newRow);
 	}
 }
 
@@ -241,6 +244,9 @@ void WorkoutEditor::moveStepDown()
 		auto newRow = row + 1;
 		listWorkoutSteps->insertItem(newRow, item);
 		listWorkoutSteps->setCurrentRow(newRow);
+		auto workout = getSelectedWorkout();
+		if (workout)
+			workout->swapSteps(row, newRow);
 	}
 }
 

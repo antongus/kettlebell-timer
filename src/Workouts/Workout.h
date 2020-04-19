@@ -45,6 +45,7 @@ public:
 	std::shared_ptr<WorkoutStep> getStep(unsigned index);
 	std::shared_ptr<WorkoutStep> findStep(int id);
 	std::shared_ptr<WorkoutStep> addStep(QString const& title);
+	void swapSteps(int index1, int index2);
 	void deleteStep(int id);
 
 public slots:

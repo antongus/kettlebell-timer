@@ -83,6 +83,12 @@ std::shared_ptr<WorkoutStep> Workout::addStep(const QString& title)
 	return step;
 }
 
+void Workout::swapSteps(int index1, int index2)
+{
+	auto begin = std::begin(steps);
+	std::iter_swap(begin + index1, begin + index2);
+}
+
 void Workout::deleteStep(int id)
 {
 	auto findById = [&](auto& w) { return id == w->getId(); };
