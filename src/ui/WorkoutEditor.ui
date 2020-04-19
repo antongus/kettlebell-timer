@@ -382,7 +382,7 @@
             <item row="7" column="0" colspan="3">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="title">
-               <string>Step legs</string>
+               <string>Step rounds</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
                <property name="leftMargin">
@@ -403,15 +403,15 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_6">
                  <property name="text">
-                  <string>Leg count</string>
+                  <string>Rounds in step</string>
                  </property>
                 </widget>
                </item>
                <item row="0" column="1">
-                <widget class="QSpinBox" name="sbStepRepeatCount"/>
+                <widget class="QSpinBox" name="sbRoundCount"/>
                </item>
                <item row="1" column="1">
-                <widget class="QSpinBox" name="sbStepDuration">
+                <widget class="QSpinBox" name="sbRoundTime">
                  <property name="suffix">
                   <string> s</string>
                  </property>
@@ -421,7 +421,7 @@
                 </widget>
                </item>
                <item row="3" column="1">
-                <widget class="QSpinBox" name="sbPauseBetweenRepeats">
+                <widget class="QSpinBox" name="sbRestTime">
                  <property name="suffix">
                   <string> s</string>
                  </property>
@@ -430,12 +430,12 @@
                <item row="1" column="0">
                 <widget class="QLabel" name="label_5">
                  <property name="text">
-                  <string>Leg duration</string>
+                  <string>Round time</string>
                  </property>
                 </widget>
                </item>
                <item row="2" column="1">
-                <widget class="QSpinBox" name="sbStepAttempts">
+                <widget class="QSpinBox" name="sbRoundAttempts">
                  <property name="maximum">
                   <number>999</number>
                  </property>
@@ -444,14 +444,14 @@
                <item row="2" column="0">
                 <widget class="QLabel" name="label_8">
                  <property name="text">
-                  <string>Attempts per leg</string>
+                  <string>Attempts per round</string>
                  </property>
                 </widget>
                </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="label_7">
                  <property name="text">
-                  <string>Pause before leg</string>
+                  <string>Rest time</string>
                  </property>
                 </widget>
                </item>
@@ -464,7 +464,7 @@
             <item row="1" column="0" colspan="3">
              <widget class="QGroupBox" name="groupBox">
               <property name="title">
-               <string>Pause before start</string>
+               <string>Start</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
                <property name="leftMargin">
@@ -483,7 +483,7 @@
                 <number>4</number>
                </property>
                <item row="0" column="1">
-                <widget class="QSpinBox" name="sbDelayBeforeStart">
+                <widget class="QSpinBox" name="sbStartDelay">
                  <property name="suffix">
                   <string> s</string>
                  </property>
@@ -492,7 +492,7 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>Duration</string>
+                  <string>Start delay</string>
                  </property>
                 </widget>
                </item>

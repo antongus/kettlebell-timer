@@ -17,12 +17,12 @@ namespace  {
 /// struct for holding variable names
 struct VarNames
 {
-	static constexpr char caption[]            = "caption";
-	static constexpr char initialDelay[]       = "initialDelay";
-	static constexpr char duration[]           = "duration";
-	static constexpr char attempts[]           = "attempts";
-	static constexpr char loopCount[]          = "loopCount";
-	static constexpr char loopPause[]          = "loopPause";
+	static constexpr char caption[]          = "caption";
+	static constexpr char startDelay[]       = "startDelay";
+	static constexpr char roundTime[]        = "roundTime";
+	static constexpr char roundAttempts[]    = "roundAttempts";
+	static constexpr char roundCount[]       = "roundCount";
+	static constexpr char restTime[]         = "restTime";
 };
 
 }
@@ -34,12 +34,12 @@ struct VarNames
 QJsonValue WorkoutStep::getJson() const
 {
 	QJsonObject obj;
-	obj[VarNames::caption] = caption;
-	obj[VarNames::initialDelay] = initialDelay;
-	obj[VarNames::duration] = duration;
-	obj[VarNames::attempts] = attempts;
-	obj[VarNames::loopCount] = loopCount;
-	obj[VarNames::loopPause] = loopPause;
+	obj[VarNames::caption]       = caption;
+	obj[VarNames::startDelay]    = startDelay;
+	obj[VarNames::roundTime]     = roundTime;
+	obj[VarNames::roundAttempts] = roundAttempts;
+	obj[VarNames::roundCount]    = roundCount;
+	obj[VarNames::restTime]      = restTime;
 	return obj;
 }
 
@@ -50,9 +50,9 @@ void WorkoutStep::setJson(const QJsonValue& conf)
 {
 	auto obj = conf.toObject();
 	caption        = obj[VarNames::caption].toString(caption);
-	initialDelay   = obj[VarNames::initialDelay].toInt(10 * second);
-	duration       = obj[VarNames::duration].toInt(10 * minute);
-	attempts       = obj[VarNames::attempts].toInt(200);
-	loopCount      = obj[VarNames::loopCount].toInt(1);
-	loopPause      = obj[VarNames::loopPause].toInt(5 * second);
+	startDelay     = obj[VarNames::startDelay].toInt(10 * second);
+	roundTime      = obj[VarNames::roundTime].toInt(10 * minute);
+	roundAttempts  = obj[VarNames::roundAttempts].toInt(200);
+	roundCount     = obj[VarNames::roundCount].toInt(1);
+	restTime       = obj[VarNames::restTime].toInt(5 * second);
 }

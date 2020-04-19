@@ -117,29 +117,29 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
 	currentWorkoutStep = step;
 	auto const hasStep = currentWorkoutStep != nullptr;
 	edStepCaption->setEnabled(hasStep);
-	sbDelayBeforeStart->setEnabled(hasStep);
-	sbStepDuration->setEnabled(hasStep);
-	sbStepAttempts->setEnabled(hasStep);
-	sbStepRepeatCount->setEnabled(hasStep);
-	sbPauseBetweenRepeats->setEnabled(hasStep);
+	sbStartDelay->setEnabled(hasStep);
+	sbRoundTime->setEnabled(hasStep);
+	sbRoundAttempts->setEnabled(hasStep);
+	sbRoundCount->setEnabled(hasStep);
+	sbRestTime->setEnabled(hasStep);
 
 	if (hasStep)
 	{
 		edStepCaption->setText(currentWorkoutStep->getCaption());
-		sbDelayBeforeStart->setValue(currentWorkoutStep->getInitialDelay());
-		sbStepDuration->setValue(currentWorkoutStep->getDuration());
-		sbStepAttempts->setValue(currentWorkoutStep->getAttempts());
-		sbStepRepeatCount->setValue(currentWorkoutStep->getLoopCount());
-		sbPauseBetweenRepeats->setValue(currentWorkoutStep->getLoopPause());
+		sbStartDelay->setValue(currentWorkoutStep->getStartDelay());
+		sbRoundTime->setValue(currentWorkoutStep->getRoundTime());
+		sbRoundAttempts->setValue(currentWorkoutStep->getRoundAttempts());
+		sbRoundCount->setValue(currentWorkoutStep->getRoundCount());
+		sbRestTime->setValue(currentWorkoutStep->getRestTime());
 	}
 	else
 	{
 		edStepCaption->setText("");
-		sbDelayBeforeStart->setValue(0);
-		sbStepDuration->setValue(0);
-		sbStepAttempts->setValue(0);
-		sbStepRepeatCount->setValue(0);
-		sbPauseBetweenRepeats->setValue(0);
+		sbStartDelay->setValue(0);
+		sbRoundTime->setValue(0);
+		sbRoundAttempts->setValue(0);
+		sbRoundCount->setValue(0);
+		sbRestTime->setValue(0);
 	}
 }
 
@@ -250,11 +250,11 @@ void WorkoutEditor::saveCurrentWorkoutStep()
 	{
 		auto caption = edStepCaption->text();
 		currentWorkoutStep->setCaption(caption);
-		currentWorkoutStep->setInitialDelay(sbDelayBeforeStart->value());
-		currentWorkoutStep->setDuration(sbStepDuration->value());
-		currentWorkoutStep->setAttempts(sbStepAttempts->value());
-		currentWorkoutStep->setLoopCount(sbStepRepeatCount->value());
-		currentWorkoutStep->setLoopPause(sbPauseBetweenRepeats->value());
+		currentWorkoutStep->setStartDelay(sbStartDelay->value());
+		currentWorkoutStep->setRoundTime(sbRoundTime->value());
+		currentWorkoutStep->setRoundAttempts(sbRoundAttempts->value());
+		currentWorkoutStep->setRoundCount(sbRoundCount->value());
+		currentWorkoutStep->setRestTime(sbRestTime->value());
 		auto id = currentWorkoutStep->getId();
 		for (auto row = 0; row < listWorkoutSteps->count(); ++row)
 		{

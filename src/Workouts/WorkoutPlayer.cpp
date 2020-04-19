@@ -79,7 +79,7 @@ void WorkoutPlayer::timerFunction()
 			sounds->playFinish();
 			if (stepLegs) // need to repeat the body?
 			{
-				timeCounter.start(step->getLoopPause() * 1000);
+				timeCounter.start(step->getRestTime() * 1000);
 				stage = Stage::LegPause;
 				emit displayStage(tr("%1: Pause between legs").arg(step->getCaption()));
 			}
@@ -136,9 +136,9 @@ void WorkoutPlayer::startNextStep()
 	}
 
 	// load counters for step
-	stepLegs = step->getLoopCount();
+	stepLegs = step->getRoundCount();
 
-	if (step->getInitialDelay())
+	if (step->getStartDelay())
 		startPreDelay();
 	else
 		startLeg();
@@ -148,7 +148,7 @@ void WorkoutPlayer::startNextStep()
 void WorkoutPlayer::startPreDelay()
 {
 	// start countdown timer for initial delay
-	timeCounter.start(step->getInitialDelay() * 1000);
+	timeCounter.start(step->getStartDelay() * 1000);
 
 	// switch stage
 	stage = Stage::InitialPause;
@@ -165,12 +165,12 @@ void WorkoutPlayer::startLeg()
 	if (stepLegs--) // current step has a legs to play
 	{
 		// start countdown timer for step
-		auto duration = step->getDuration() * 1000;
+		auto duration = step->getRoundTime() * 1000;
 		timeCounter.start(duration);
 
 		// prepare counters for attempts counter
 		attemptCounter = 0;
-		stepAttempts = step->getAttempts();
+		stepAttempts = step->getRoundAttempts();
 		if (stepAttempts)
 		{
 			ticksPerAttempt = duration / stepAttempts;
@@ -178,9 +178,9 @@ void WorkoutPlayer::startLeg()
 		}
 		emit displayAttempts("0");
 		stage = Stage::Leg;
-		auto legs = step->getLoopCount();
+		auto legs = step->getRoundCount();
 		auto caption = step->getCaption();
-		if (step->getLoopCount() > 1)
+		if (step->getRoundCount() > 1)
 			emit displayStage(tr("%1: leg %2 of %3").arg(caption).arg(legs - stepLegs).arg(legs));
 		else
 			emit displayStage(tr("%1: leg").arg(caption));

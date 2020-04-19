@@ -33,28 +33,28 @@ public:
 	void setJson(const QJsonValue& conf) override;
 
 	QString getCaption() const { return caption; }
-	int  getInitialDelay() const { return initialDelay; }
-	int  getDuration() const { return duration; }
-	int  getAttempts() const { return attempts; }
-	int  getLoopCount() const { return loopCount; }
-	int  getLoopPause() const { return loopPause; }
+	int  getStartDelay() const { return startDelay; }
+	int  getRoundTime() const { return roundTime; }
+	int  getRoundAttempts() const { return roundAttempts; }
+	int  getRoundCount() const { return roundCount; }
+	int  getRestTime() const { return restTime; }
 
 	void setCaption(QString value) { caption = value; }
-	void setInitialDelay(int value) { initialDelay = value; }
-	void setDuration(int value) { duration = value; }
-	void setAttempts(int value) { attempts = value; }
-	void setLoopCount(int value) { loopCount = value; }
-	void setLoopPause(int value) { loopPause = value; }
+	void setStartDelay(int value) { startDelay = value; }
+	void setRoundTime(int value) { roundTime = value; }
+	void setRoundAttempts(int value) { roundAttempts = value; }
+	void setRoundCount(int value) { roundCount = value; }
+	void setRestTime(int value) { restTime = value; }
 
 protected:
 	static constexpr int second { 1 };
 	static constexpr int minute { 60 * second };
 
-	QString caption;                          //!< step title
-	int  initialDelay { 10 * second };        //!< delay before start (seconds)
-	int  duration { 10 * minute };            //!< step duration (seconds)
-	int  attempts { 200 };                    //!< attempts during step
-	int  loopCount { 1 };                     //!< how many times should repeat step
-	int  loopPause { 5 * second };            //!< pause before second and all next repeats in loop
+	QString caption;                        //!< step title
+	int  startDelay { 10 * second };        //!< delay before start (seconds)
+	int  roundTime { 10 * minute };         //!< round duration (seconds)
+	int  roundAttempts { 200 };             //!< attempts in round
+	int  roundCount { 1 };                  //!< how many rounds in step
+	int  restTime { 5 * second };           //!< rest between rounds
 
 };
