@@ -183,7 +183,7 @@ void WorkoutPlayer::startRound()
 		if (stepAttempts)
 		{
 			ticksPerAttempt = duration / stepAttempts;
-			nextAttemptTicks = duration - (ticksPerAttempt * 3) / 4; // first tick after 3/4 of interval
+			nextAttemptTicks = duration - ticksPerAttempt;
 		}
 		emit displayAttempts("0");
 		stage = Stage::Leg;
