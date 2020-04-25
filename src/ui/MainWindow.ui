@@ -57,14 +57,6 @@
               <height>0</height>
              </size>
             </property>
-            <property name="styleSheet">
-             <string notr="true">padding: 2px 2px;
-border: 1px solid;
-border-radius: 2px;
-background-color: rgba(255, 255, 153, 200);
-border-color: gray;
-font-size: 12pt;</string>
-            </property>
             <property name="text">
              <string>STAGE:</string>
             </property>
@@ -80,14 +72,6 @@ font-size: 12pt;</string>
               <width>140</width>
               <height>0</height>
              </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding: 2px 2px;
-border: 1px solid;
-border-radius: 2px;
-background-color: rgba(255, 255, 153, 200);
-border-color: gray;
-font-size: 12pt;</string>
             </property>
             <property name="text">
              <string>WORKOUT:</string>
@@ -114,14 +98,6 @@ font-size: 12pt;</string>
               <width>140</width>
               <height>0</height>
              </size>
-            </property>
-            <property name="styleSheet">
-             <string notr="true">padding: 2px 2px;
-border: 1px solid;
-border-radius: 2px;
-background-color: rgba(255, 255, 153, 200);
-border-color: gray;
-font-size: 12pt;</string>
             </property>
             <property name="text">
              <string>STEP:</string>
@@ -176,7 +152,6 @@ font-size: 12pt;</string>
           <string notr="true">padding: 2px 2px;
 border: 1px solid;
 border-radius: 2px;
-background-color: rgba(255, 255, 153, 200);
 border-color: gray;
 font-size: 12pt;</string>
          </property>
@@ -263,7 +238,6 @@ font-size: 12pt;</string>
           <string notr="true">padding: 2px 2px;
 border: 1px solid;
 border-radius: 2px;
-background-color: rgba(255, 255, 153, 200);
 border-color: gray;
 font-size: 12pt;</string>
          </property>

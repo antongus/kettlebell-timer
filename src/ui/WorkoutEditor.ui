@@ -399,7 +399,17 @@ border-color: gray;
             </sizepolicy>
            </property>
            <layout class="QGridLayout" name="gridLayout">
-            <item row="7" column="0" colspan="3">
+            <item row="0" column="1" colspan="2">
+             <widget class="QLineEdit" name="edStepCaption"/>
+            </item>
+            <item row="0" column="0">
+             <widget class="QLabel" name="label_3">
+              <property name="text">
+               <string>Step title</string>
+              </property>
+             </widget>
+            </item>
+            <item row="6" column="0" colspan="3">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="title">
                <string>Step settings</string>
@@ -409,7 +419,7 @@ border-color: gray;
                 <number>4</number>
                </property>
                <property name="topMargin">
-                <number>4</number>
+                <number>12</number>
                </property>
                <property name="rightMargin">
                 <number>4</number>
@@ -479,40 +489,6 @@ border-color: gray;
                  </property>
                 </widget>
                </item>
-              </layout>
-             </widget>
-            </item>
-            <item row="0" column="1" colspan="2">
-             <widget class="QLineEdit" name="edStepCaption"/>
-            </item>
-            <item row="1" column="0" colspan="3">
-             <widget class="QGroupBox" name="groupBox">
-              <property name="title">
-               <string>Start</string>
-              </property>
-              <layout class="QGridLayout" name="gridLayout_2">
-               <property name="leftMargin">
-                <number>4</number>
-               </property>
-               <property name="topMargin">
-                <number>4</number>
-               </property>
-               <property name="rightMargin">
-                <number>4</number>
-               </property>
-               <property name="bottomMargin">
-                <number>4</number>
-               </property>
-               <property name="spacing">
-                <number>4</number>
-               </property>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="sbStartDelay">
-                 <property name="suffix">
-                  <string> s</string>
-                 </property>
-                </widget>
-               </item>
                <item row="0" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="text">
@@ -520,14 +496,14 @@ border-color: gray;
                  </property>
                 </widget>
                </item>
+               <item row="0" column="1">
+                <widget class="QSpinBox" name="sbStartDelay">
+                 <property name="suffix">
+                  <string> s</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
-             </widget>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Step title</string>
-              </property>
              </widget>
             </item>
            </layout>
@@ -672,7 +648,6 @@ border-color: gray;
   <tabstop>listWorkouts</tabstop>
   <tabstop>listWorkoutSteps</tabstop>
   <tabstop>edStepCaption</tabstop>
-  <tabstop>sbStartDelay</tabstop>
   <tabstop>sbRoundTime</tabstop>
   <tabstop>sbRestTime</tabstop>
   <tabstop>sbRoundCount</tabstop>
