@@ -25,7 +25,6 @@ struct Config
 	QString finishSoundFileName;
 	QString attemptTickSoundFileName;
 
-	void loadDefaults();
 	void fromJson(QJsonObject const& conf);
 	void toJson(QJsonObject& conf);
 };

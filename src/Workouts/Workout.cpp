@@ -70,7 +70,8 @@ std::shared_ptr<WorkoutStep> Workout::getStep(unsigned index)
 std::shared_ptr<WorkoutStep> Workout::findStep(int id)
 {
 	auto findById = [&](auto& w) { return id == w->getId(); };
-	if (auto it = std::find_if(steps.begin(), steps.end(), findById); it != steps.end())
+	auto it = std::find_if(steps.begin(), steps.end(), findById);
+	if (it != steps.end())
 		return *it;
 	return nullptr;
 }

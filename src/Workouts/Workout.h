@@ -17,7 +17,6 @@
 #include <QString>
 #include <QJsonObject>
 #include <vector>
-#include <optional>
 #include <memory>
 
 #include "WorkoutStep.h"

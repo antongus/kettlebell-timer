@@ -10,8 +10,9 @@ WorkoutSelector::WorkoutSelector(Workouts* workouts, int currentIndex, QWidget *
 	connect(pbCancel, &QPushButton::clicked, [=]{done(QDialog::Rejected); });
 	connect(listWorkouts, &QListWidget::doubleClicked, this, &WorkoutSelector::listDoubleClicked);
 
-	for (auto& workout : *workouts)
+	for (auto i = 0u; i < workouts->size(); ++i)
 	{
+		auto workout = workouts->getWorkout(i);
 		auto item = new QListWidgetItem(QIcon(":/icons/stopwatch.svg"), workout->getTitle(), listWorkouts);
 		item->setData(Qt::UserRole, workout->getId());
 	}

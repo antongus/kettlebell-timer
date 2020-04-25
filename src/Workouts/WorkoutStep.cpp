@@ -13,19 +13,12 @@
 
 #include "WorkoutStep.h"
 
-namespace  {
-/// struct for holding variable names
-struct VarNames
-{
-	static constexpr char caption[]          = "caption";
-	static constexpr char startDelay[]       = "startDelay";
-	static constexpr char roundTime[]        = "roundTime";
-	static constexpr char roundAttempts[]    = "roundAttempts";
-	static constexpr char roundCount[]       = "roundCount";
-	static constexpr char restTime[]         = "restTime";
-};
-
-}
+static constexpr char VarName_caption[]          = "caption";
+static constexpr char VarName_startDelay[]       = "startDelay";
+static constexpr char VarName_roundTime[]        = "roundTime";
+static constexpr char VarName_roundAttempts[]    = "roundAttempts";
+static constexpr char VarName_roundCount[]       = "roundCount";
+static constexpr char VarName_restTime[]         = "restTime";
 
 
 /**
@@ -34,12 +27,12 @@ struct VarNames
 QJsonValue WorkoutStep::getJson() const
 {
 	QJsonObject obj;
-	obj[VarNames::caption]       = caption;
-	obj[VarNames::startDelay]    = startDelay;
-	obj[VarNames::roundTime]     = roundTime;
-	obj[VarNames::roundAttempts] = roundAttempts;
-	obj[VarNames::roundCount]    = roundCount;
-	obj[VarNames::restTime]      = restTime;
+	obj[VarName_caption]       = caption;
+	obj[VarName_startDelay]    = startDelay;
+	obj[VarName_roundTime]     = roundTime;
+	obj[VarName_roundAttempts] = roundAttempts;
+	obj[VarName_roundCount]    = roundCount;
+	obj[VarName_restTime]      = restTime;
 	return obj;
 }
 
@@ -49,10 +42,10 @@ QJsonValue WorkoutStep::getJson() const
 void WorkoutStep::setJson(const QJsonValue& conf)
 {
 	auto obj = conf.toObject();
-	caption        = obj[VarNames::caption].toString(caption);
-	startDelay     = obj[VarNames::startDelay].toInt(10 * second);
-	roundTime      = obj[VarNames::roundTime].toInt(10 * minute);
-	roundAttempts  = obj[VarNames::roundAttempts].toInt(200);
-	roundCount     = obj[VarNames::roundCount].toInt(1);
-	restTime       = obj[VarNames::restTime].toInt(5 * second);
+	caption        = obj[VarName_caption].toString(caption);
+	startDelay     = obj[VarName_startDelay].toInt(10 * second);
+	roundTime      = obj[VarName_roundTime].toInt(10 * minute);
+	roundAttempts  = obj[VarName_roundAttempts].toInt(200);
+	roundCount     = obj[VarName_roundCount].toInt(1);
+	restTime       = obj[VarName_restTime].toInt(5 * second);
 }

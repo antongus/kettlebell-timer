@@ -40,11 +40,7 @@ public:
 	std::shared_ptr<Workout> add(QString const& title);
 	void remove(int id);
 
-	auto size() const { return workouts.size(); }
-	auto begin() { return std::begin(workouts); }
-	auto end() { return std::end(workouts); }
-	auto begin() const { return std::begin(workouts); }
-	auto end() const { return std::end(workouts); }
+	size_t size() const { return workouts.size(); }
 
 	void createDefaultWorkouts();
 

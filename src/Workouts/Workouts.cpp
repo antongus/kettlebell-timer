@@ -76,7 +76,8 @@ void Workouts::setJson(const QJsonValue& conf)
 	auto obj = conf.toObject();
 	for (auto stepVal : obj["workouts"].toArray())
 	{
-		auto& workout = workouts.emplace_back(std::make_shared<Workout>());
+		auto workout = std::make_shared<Workout>();
+		workouts.emplace_back(workout);
 		workout->setJson(stepVal.toObject());
 	}
 
@@ -93,7 +94,8 @@ std::shared_ptr<Workout> Workouts::getWorkout(size_t index)
 std::shared_ptr<Workout> Workouts::find(int id)
 {
 	auto findById = [&](auto& w) { return id == w->getId(); };
-	if (auto it = std::find_if(workouts.begin(), workouts.end(), findById); it != workouts.end())
+	auto it = std::find_if(workouts.begin(), workouts.end(), findById);
+	if (it != workouts.end())
 		return *it;
 	return nullptr;
 }

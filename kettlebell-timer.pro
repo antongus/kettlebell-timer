@@ -15,9 +15,9 @@ TEMPLATE = app
 
 ORGANIZATION = anton.b.gusev
 TEMPLATE = app
-VERSION = 0.12
+VERSION = 0.20
 
-CONFIG += c++17
+CONFIG += c++14
 
 # emit warnings if you use any feature of Qt which has been marked as deprecated
 DEFINES += QT_DEPRECATED_WARNINGS

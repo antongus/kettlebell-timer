@@ -17,54 +17,36 @@
 
 Config config;
 
-namespace
-{
-struct SectionNames
-{
-	static constexpr char workout[]    = "workout";
-	static constexpr char sounds[]     = "sounds";
-};
+static constexpr char SectionName_workout[]    = "workout";
+static constexpr char SectionName_sounds[]     = "sounds";
 
-struct VarNames
-{
-	static constexpr char workoutIndex[] = "workoutIndex";
-	static constexpr char pauseSound[]   = "pauseSound";
-	static constexpr char startSound[]   = "startSound";
-	static constexpr char tickSound[]    = "tickSound";
-	static constexpr char stopSound[]    = "stopSound";
-};
-
-}
-
-void Config::loadDefaults()
-{
-	pauseTickSoundFileName = "bink.wav";
-	startSoundFileName = "start.wav";
-	finishSoundFileName = "start.wav";
-	attemptTickSoundFileName = "tick.wav";
-}
+static constexpr char VarName_workoutIndex[] = "workoutIndex";
+static constexpr char VarName_pauseSound[]   = "pauseSound";
+static constexpr char VarName_startSound[]   = "startSound";
+static constexpr char VarName_tickSound[]    = "tickSound";
+static constexpr char VarName_stopSound[]    = "stopSound";
 
 void Config::fromJson(QJsonObject const& conf)
 {
-	const QJsonObject soundsSettings = conf[SectionNames::sounds].toObject();
-	pauseTickSoundFileName = soundsSettings[VarNames::pauseSound].toString().trimmed();
-	startSoundFileName = soundsSettings[VarNames::startSound].toString().trimmed();
-	finishSoundFileName = soundsSettings[VarNames::stopSound].toString().trimmed();
-	attemptTickSoundFileName = soundsSettings[VarNames::tickSound].toString().trimmed();
-	const QJsonObject workoutSettings = conf[SectionNames::workout].toObject();
-	workoutIndex = workoutSettings[VarNames::workoutIndex].toInt(0);
+	const QJsonObject soundsSettings = conf[SectionName_sounds].toObject();
+	pauseTickSoundFileName = soundsSettings[VarName_pauseSound].toString("bink.wav").trimmed();
+	startSoundFileName = soundsSettings[VarName_startSound].toString("start.wav").trimmed();
+	finishSoundFileName = soundsSettings[VarName_stopSound].toString("start.wav").trimmed();
+	attemptTickSoundFileName = soundsSettings[VarName_tickSound].toString("tick.wav").trimmed();
+	const QJsonObject workoutSettings = conf[SectionName_workout].toObject();
+	workoutIndex = workoutSettings[VarName_workoutIndex].toInt(0);
 }
 
 void Config::toJson(QJsonObject& conf)
 {
-	QJsonObject soundSettings = conf[SectionNames::sounds].toObject();
-	soundSettings[VarNames::pauseSound] = pauseTickSoundFileName;
-	soundSettings[VarNames::startSound] = startSoundFileName;
-	soundSettings[VarNames::stopSound] = finishSoundFileName;
-	soundSettings[VarNames::tickSound] = attemptTickSoundFileName;
-	conf[SectionNames::sounds] = soundSettings;
+	QJsonObject soundSettings = conf[SectionName_sounds].toObject();
+	soundSettings[VarName_pauseSound] = pauseTickSoundFileName;
+	soundSettings[VarName_startSound] = startSoundFileName;
+	soundSettings[VarName_stopSound] = finishSoundFileName;
+	soundSettings[VarName_tickSound] = attemptTickSoundFileName;
+	conf[SectionName_sounds] = soundSettings;
 
-	QJsonObject workoutSettings = conf[SectionNames::workout].toObject();
-	workoutSettings[VarNames::workoutIndex] = workoutIndex;
-	conf[SectionNames::workout] = workoutSettings;
+	QJsonObject workoutSettings = conf[SectionName_workout].toObject();
+	workoutSettings[VarName_workoutIndex] = workoutIndex;
+	conf[SectionName_workout] = workoutSettings;
 }

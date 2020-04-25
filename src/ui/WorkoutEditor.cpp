@@ -148,7 +148,7 @@ void WorkoutEditor::loadWorkoutStep(std::shared_ptr<WorkoutStep> step)
  */
 void WorkoutEditor::addWorkout()
 {
-	auto ok { false };
+	bool ok { false };
 	auto title = QInputDialog::getText(
 	                 this,
 	                 tr("Enter title for new workout"),
