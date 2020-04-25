@@ -30,6 +30,7 @@ public:
 signals:
 	void displayTicks(QString text);
 	void displayAttempts(QString text);
+	void displayStep(QString text);
 	void displayStage(QString text);
 	void done();
 
@@ -72,5 +73,5 @@ private:
 	void updateTicks(int ticks);
 	void startNextStep();
 	void startPreDelay();
-	void startLeg();
+	void startRound();
 };

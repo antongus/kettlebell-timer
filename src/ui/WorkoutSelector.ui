@@ -10,14 +10,11 @@
     <height>480</height>
    </rect>
   </property>
-  <property name="font">
-   <font>
-    <family>Verdana</family>
-    <pointsize>12</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Workout selector</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">font-size:12pt;</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -37,13 +34,13 @@
       </property>
       <item>
        <widget class="QLabel" name="label">
-        <property name="font">
-         <font>
-          <family>Verdana</family>
-          <pointsize>12</pointsize>
-          <weight>75</weight>
-          <bold>true</bold>
-         </font>
+        <property name="styleSheet">
+         <string notr="true">padding: 2px 2px;
+border: 1px solid;
+border-radius: 2px;
+background-color: rgba(255, 255, 153, 200);
+border-color: gray;
+</string>
         </property>
         <property name="text">
          <string>Workout selector</string>
@@ -101,12 +98,6 @@
           <height>48</height>
          </size>
         </property>
-        <property name="font">
-         <font>
-          <family>Verdana</family>
-          <pointsize>12</pointsize>
-         </font>
-        </property>
         <property name="text">
          <string>Select workout</string>
         </property>
@@ -154,12 +145,6 @@
           <width>140</width>
           <height>48</height>
          </size>
-        </property>
-        <property name="font">
-         <font>
-          <family>Verdana</family>
-          <pointsize>12</pointsize>
-         </font>
         </property>
         <property name="text">
          <string>Cancel</string>

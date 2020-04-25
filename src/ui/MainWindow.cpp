@@ -166,7 +166,8 @@ void MainWindow::startStopClicked()
 		auto p = player.get();
 		connect(p, &WorkoutPlayer::displayTicks, [&](QString text){ lcdTimer->display(text); });
 		connect(p, &WorkoutPlayer::displayAttempts, [&](QString text){ lcdAttempts->display(text); });
-		connect(p, &WorkoutPlayer::displayStage, [&](QString text){ labelWorkoutStepName->setText(text); });
+		connect(p, &WorkoutPlayer::displayStep, [&](QString text){ labelStepCaption->setText(text); });
+		connect(p, &WorkoutPlayer::displayStage, [&](QString text){ labelStageCaption->setText(text); });
 		connect(p, &WorkoutPlayer::done, this, &MainWindow::stopWorkout);
 
 		pbStart->setText(tr("Stop! (F2)"));
@@ -227,11 +228,11 @@ void MainWindow::setActiveWorkout(std::shared_ptr<Workout> newWorkout)
 	workout = newWorkout;
 	if (workout)
 	{
-		labelWorkoutName->setText(workout->getTitle());
+		labelWorkoutCaption->setText(workout->getTitle());
 	}
 	else
 	{
-		labelWorkoutName->setText(tr("No workout selected"));
+		labelWorkoutCaption->setText(tr("NO WORKOUT SELECTED"));
 	}
 }
 

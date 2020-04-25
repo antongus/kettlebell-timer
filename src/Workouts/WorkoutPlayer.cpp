@@ -35,7 +35,8 @@ void WorkoutPlayer::stop()
 {
 	timer->stop();
 	stage = Stage::Done;
-	emit displayStage(tr("Workout finished"));
+	emit displayStep(tr("---"));
+	emit displayStage(tr("---"));
 }
 
 void WorkoutPlayer::timerFunction()
@@ -57,7 +58,7 @@ void WorkoutPlayer::timerFunction()
 		if (timeCounter.isElapsed())
 		{
 			sounds->playStart();
-			startLeg();
+			startRound();
 		}
 		break;
 
@@ -82,15 +83,13 @@ void WorkoutPlayer::timerFunction()
 				timeCounter.start(step->getRestTime() * 1000);
 				stage = Stage::LegPause;
 				auto rounds = step->getRoundCount();
-				auto caption = step->getCaption();
 				if (rounds > 1)
-					emit displayStage(tr("REST %1/%2 (%3)")
+					emit displayStage(tr("REST (ROUND %1 OF %2)")
 				                      .arg(rounds - remainingRounds)
 				                      .arg(rounds)
-				                      .arg(caption)
 				                      );
 				else
-					emit displayStage(tr("REST (%1)").arg(caption));
+					emit displayStage(tr("REST"));
 			}
 			else
 				startNextStep();
@@ -103,7 +102,7 @@ void WorkoutPlayer::timerFunction()
 		updateTicks(timeCounter.getTicks());
 		if (timeCounter.isElapsed())
 		{
-			startLeg();
+			startRound();
 		}
 		break;
 
@@ -144,12 +143,14 @@ void WorkoutPlayer::startNextStep()
 		return;
 	}
 
+	emit displayStep(step->getCaption());
+
 	remainingRounds = step->getRoundCount();
 
 	if (step->getStartDelay())
 		startPreDelay();
 	else
-		startLeg();
+		startRound();
 }
 
 /// start pre-delay stage
@@ -165,10 +166,10 @@ void WorkoutPlayer::startPreDelay()
 	emit displayAttempts("0");
 
 	// display stage
-	emit displayStage(tr("GET READY!"));
+	emit displayStage(tr("DELAY BEFORE STEP START"));
 }
 
-void WorkoutPlayer::startLeg()
+void WorkoutPlayer::startRound()
 {
 	if (remainingRounds--) // current step has a legs to play
 	{
@@ -187,15 +188,13 @@ void WorkoutPlayer::startLeg()
 		emit displayAttempts("0");
 		stage = Stage::Leg;
 		auto rounds = step->getRoundCount();
-		auto caption = step->getCaption();
 		if (rounds > 1)
-			emit displayStage(tr("WORK %1/%2 (%3)")
+			emit displayStage(tr("WORK (ROUND %1 OF %2)")
 		                      .arg(rounds - remainingRounds)
 		                      .arg(rounds)
-		                      .arg(caption)
 		                      );
 		else
-			emit displayStage(tr("WORK (%1)").arg(caption));
+			emit displayStage(tr("WORK"));
 		sounds->playStart();
 	}
 	else

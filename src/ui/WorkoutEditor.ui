@@ -16,11 +16,6 @@
     <height>600</height>
    </size>
   </property>
-  <property name="font">
-   <font>
-    <pointsize>11</pointsize>
-   </font>
-  </property>
   <property name="windowTitle">
    <string>Workout editor</string>
   </property>
@@ -39,6 +34,9 @@
    </property>
    <item>
     <widget class="QWidget" name="widget_6" native="true">
+     <property name="styleSheet">
+      <string notr="true">font-size:12pt;</string>
+     </property>
      <layout class="QHBoxLayout" name="horizontalLayout">
       <property name="spacing">
        <number>2</number>
@@ -56,7 +54,10 @@
        <number>0</number>
       </property>
       <item>
-       <widget class="QWidget" name="widget" native="true">
+       <widget class="QFrame" name="frame">
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
         <layout class="QVBoxLayout" name="verticalLayout">
          <property name="leftMargin">
           <number>2</number>
@@ -72,6 +73,14 @@
          </property>
          <item>
           <widget class="QLabel" name="label">
+           <property name="styleSheet">
+            <string notr="true">padding: 2px 2px;
+border: 1px solid;
+border-radius: 2px;
+background-color: rgba(255, 255, 153, 200);
+border-color: gray;
+</string>
+           </property>
            <property name="text">
             <string>Workouts</string>
            </property>
@@ -182,12 +191,15 @@
        </widget>
       </item>
       <item>
-       <widget class="QWidget" name="widget_2" native="true">
+       <widget class="QFrame" name="frame_2">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>3</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
         </property>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <property name="leftMargin">
@@ -204,6 +216,14 @@
          </property>
          <item>
           <widget class="QLabel" name="stepsTitle">
+           <property name="styleSheet">
+            <string notr="true">padding: 2px 2px;
+border: 1px solid;
+border-radius: 2px;
+background-color: rgba(255, 255, 153, 200);
+border-color: gray;
+</string>
+           </property>
            <property name="text">
             <string>Steps for workout</string>
            </property>
@@ -382,7 +402,7 @@
             <item row="7" column="0" colspan="3">
              <widget class="QGroupBox" name="groupBox_3">
               <property name="title">
-               <string>Step rounds</string>
+               <string>Step settings</string>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
                <property name="leftMargin">
@@ -400,15 +420,19 @@
                <property name="spacing">
                 <number>4</number>
                </property>
-               <item row="0" column="0">
-                <widget class="QLabel" name="label_6">
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_5">
                  <property name="text">
-                  <string>Rounds in step</string>
+                  <string>Work time</string>
                  </property>
                 </widget>
                </item>
-               <item row="0" column="1">
-                <widget class="QSpinBox" name="sbRoundCount"/>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>Repeat step</string>
+                 </property>
+                </widget>
                </item>
                <item row="1" column="1">
                 <widget class="QSpinBox" name="sbRoundTime">
@@ -427,31 +451,31 @@
                  </property>
                 </widget>
                </item>
-               <item row="1" column="0">
-                <widget class="QLabel" name="label_5">
-                 <property name="text">
-                  <string>Round time</string>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="1">
-                <widget class="QSpinBox" name="sbRoundAttempts">
-                 <property name="maximum">
-                  <number>999</number>
-                 </property>
-                </widget>
-               </item>
-               <item row="2" column="0">
-                <widget class="QLabel" name="label_8">
-                 <property name="text">
-                  <string>Attempts per round</string>
-                 </property>
-                </widget>
-               </item>
                <item row="3" column="0">
                 <widget class="QLabel" name="label_7">
                  <property name="text">
                   <string>Rest time</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
+                <widget class="QSpinBox" name="sbRoundCount">
+                 <property name="suffix">
+                  <string> times</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Attempts per step</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
+                <widget class="QSpinBox" name="sbRoundAttempts">
+                 <property name="maximum">
+                  <number>999</number>
                  </property>
                 </widget>
                </item>
@@ -492,7 +516,7 @@
                <item row="0" column="0">
                 <widget class="QLabel" name="label_4">
                  <property name="text">
-                  <string>Start delay</string>
+                  <string>Delay before start</string>
                  </property>
                 </widget>
                </item>
@@ -648,6 +672,11 @@
   <tabstop>listWorkouts</tabstop>
   <tabstop>listWorkoutSteps</tabstop>
   <tabstop>edStepCaption</tabstop>
+  <tabstop>sbStartDelay</tabstop>
+  <tabstop>sbRoundTime</tabstop>
+  <tabstop>sbRestTime</tabstop>
+  <tabstop>sbRoundCount</tabstop>
+  <tabstop>sbRoundAttempts</tabstop>
   <tabstop>pbOk</tabstop>
   <tabstop>pbCancel</tabstop>
  </tabstops>
