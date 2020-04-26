@@ -210,6 +210,7 @@ void MainWindow::loadWorkouts()
 	else
 	{
 		workouts->createDefaultWorkouts();
+		saveWorkouts();
 	}
 }
 
