@@ -15,7 +15,7 @@ TEMPLATE = app
 
 ORGANIZATION = anton.b.gusev
 TEMPLATE = app
-VERSION = 0.20
+VERSION = 0.40
 
 CONFIG += c++14
 
