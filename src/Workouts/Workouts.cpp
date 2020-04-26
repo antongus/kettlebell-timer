@@ -125,17 +125,29 @@ void Workouts::remove(int id)
 void Workouts::createDefaultWorkouts()
 {
 	workouts.clear();
-	auto workout = add(tr("Tabata"));
-	auto step = workout->addStep(tr("Warmup"));
+
+	// create sample kettlebell snatch workout
+	auto workout = add(tr("Kettlebell snatch 200"));
+	auto step = workout->addStep(tr("Snatch"));
+	step->setStartDelay(10);
+	step->setRoundTime(600);
+	step->setRoundAttempts(200);
+	step->setRoundCount(1);
+	step->setRestTime(5);
+
+	// create sample tabata workout
+	workout = add(tr("Tabata"));
+	step = workout->addStep(tr("Warmup"));
 	step->setStartDelay(10);
 	step->setRoundTime(60);
-	step->setRoundAttempts(6);  // beep every 10 seconds
+	step->setRoundAttempts(6);  // beep every 10 seconds while warmup
 	step->setRoundCount(1);
 
 	step = workout->addStep(tr("Tabata"));
 	step->setStartDelay(10);
 	step->setRoundTime(20);
-	step->setRoundAttempts(4);
+	step->setRoundAttempts(4);  // beep every 5 seconds while work
 	step->setRoundCount(8);
 	step->setRestTime(10);
+
 }
