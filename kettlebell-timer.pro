@@ -15,9 +15,9 @@ TEMPLATE = app
 
 ORGANIZATION = anton.b.gusev
 TEMPLATE = app
-VERSION = 0.11
+VERSION = 0.20
 
-CONFIG += c++17
+CONFIG += c++14
 
 # emit warnings if you use any feature of Qt which has been marked as deprecated
 DEFINES += QT_DEPRECATED_WARNINGS
@@ -37,26 +37,46 @@ CONFIG(release, debug|release){
 INCLUDEPATH += \
     src \
     src/ui \
+    src/Workouts \
 
 SOURCES += \
     src/main.cpp \
-    src/ui/MainWindow.cpp \
     src/Application.cpp \
+    src/Config.cpp \
+    src/ui/MainWindow.cpp \
     src/ui/AboutDialog.cpp \
     src/ui/ConfigDialog.cpp \
-    src/Config.cpp \
+    src/ui/WorkoutEditor.cpp \
+    src/Workouts/Workout.cpp \
+    src/Workouts/WorkoutStep.cpp \
+    src/Workouts/Workouts.cpp \
+    src/ui/WorkoutSelector.cpp \
+    src/Workouts/WorkoutPlayer.cpp \
+    src/Workouts/WorkoutSounds.cpp
 
 HEADERS += \
-    src/ui/MainWindow.h \
     src/Application.h \
+    src/Config.h \
+    src/ui/MainWindow.h \
     src/ui/AboutDialog.h \
     src/ui/ConfigDialog.h \
-    src/Config.h \
+    src/ui/WorkoutEditor.h \
+    src/Workouts/Workout.h \
+    src/Workouts/WorkoutStep.h \
+    src/Workouts/Workouts.h \
+    src/ConfigItem.h \
+    src/ItemWithId.h \
+    src/ui/WorkoutSelector.h \
+    src/Workouts/WorkoutPlayer.h \
+    src/Workouts/WorkoutSounds.h \
+    src/Workouts/CountdownTimer.h
 
 FORMS += \
     src/ui/MainWindow.ui \
     src/ui/AboutDialog.ui \
     src/ui/ConfigDialog.ui \
+    src/ui/WorkoutEditor.ui \
+    src/ui/WorkoutSelector.ui
 
 RESOURCES += \
     res/resource.qrc

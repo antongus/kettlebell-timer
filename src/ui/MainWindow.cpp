@@ -16,6 +16,8 @@
 #include "Application.h"
 #include "Config.h"
 #include "ConfigDialog.h"
+#include "WorkoutEditor.h"
+#include "WorkoutSelector.h"
 
 #include <QDebug>
 #include <QFileDialog>
@@ -28,28 +30,24 @@
 #include <QSystemTrayIcon>
 #include <cmath>
 
+static constexpr char const configFileName[] { "config.json" };
+static constexpr char const workoutsFileName[] { "workouts.json" };
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , Ui::MainWindow()
 {
 	setupUi(this);
 
-	// hide settings (not fully implemented yet)
-	tbSettings->setVisible(false);
-
 	loadStyleSheet();
 	loadConfig();
 
-	tickSound = new QSoundEffect(this);
-	metronomSound = new QSoundEffect(this);
-	startSound = new QSoundEffect(this);
-	loadSounds();
-	stopExersise();
-	connectHandlers();
+	workouts = std::make_unique<Workouts>();
+	loadWorkouts();
 
-	timer = new QTimer(this);
-	connect(timer, &QTimer::timeout, this, &MainWindow::timerFunction);
-	timer->start(timerStepMilliseconds);
+	setActiveWorkout(workouts->getWorkout(static_cast<unsigned>(config.workoutIndex)));
+
+	connectHandlers();
 }
 
 MainWindow::~MainWindow()
@@ -74,8 +72,6 @@ void MainWindow::loadStyleSheet()
 		}
 	}
 }
-
-static constexpr char const configFileName[] { "config.json" };
 
 void MainWindow::loadConfig()
 {
@@ -113,6 +109,34 @@ void MainWindow::editConfig()
 	}
 }
 
+void MainWindow::editWorkouts()
+{
+	WorkoutEditor workoutEditor(this);
+	workoutEditor.setJson(workouts->getJson());
+	if (workoutEditor.exec() == QDialog::Accepted)
+	{
+		workouts->setJson(workoutEditor.getJson());
+		saveWorkouts();
+		setActiveWorkout(workouts->getWorkout(static_cast<unsigned>(config.workoutIndex)));
+	}
+}
+
+void MainWindow::selectWorkout()
+{
+	WorkoutSelector workoutSelector(workouts.get(), config.workoutIndex, this);
+	if (workoutSelector.exec() == QDialog::Accepted)
+	{
+		auto index = workoutSelector.getSelectedWorkoutIndex();
+		if (index != config.workoutIndex)
+		{
+			config.workoutIndex = index;
+			saveConfig();
+		}
+		auto newWorkout = workouts->getWorkout(static_cast<unsigned>(index));
+		setActiveWorkout(newWorkout);
+	}
+}
+
 void MainWindow::connectHandlers()
 {
 	connect(tbAbout, &QToolButton::clicked, [&]() {
@@ -121,162 +145,97 @@ void MainWindow::connectHandlers()
 	});
 
 	connect(tbSettings, &QToolButton::clicked, this, &MainWindow::editConfig);
-	connect(pbStart, &QPushButton::clicked, this, &MainWindow::startClicked);
-	connect(cbMetronom, &QCheckBox::stateChanged, [&](){ sbMetronom->setEnabled(cbMetronom->isChecked()); });
+	connect(pbStart, &QPushButton::clicked, this, &MainWindow::startStopClicked);
+	connect(tbEditWorkouts, &QToolButton::clicked, this, &MainWindow::editWorkouts);
+	connect(tbSelectWorkout, &QToolButton::clicked, this, &MainWindow::selectWorkout);
 }
 
-void MainWindow::startClicked()
+void MainWindow::startStopClicked()
 {
 	pbStart->setEnabled(false);
-	startHit = true;
+	if (player)
+	{
+		stopWorkout();
+	}
+	else if (workout)
+	{
+		player = std::make_shared<WorkoutPlayer>(workout);
+		auto p = player.get();
+		connect(p, &WorkoutPlayer::displayTicks, [&](QString text){ lcdTimer->display(text); });
+		connect(p, &WorkoutPlayer::displayAttempts, [&](QString text){ lcdAttempts->display(text); });
+		connect(p, &WorkoutPlayer::displayStep, [&](QString text){ labelStepCaption->setText(text); });
+		connect(p, &WorkoutPlayer::displayStage, [&](QString text){ labelStageCaption->setText(text); });
+		connect(p, &WorkoutPlayer::done, this, &MainWindow::stopWorkout);
+
+		pbStart->setText(tr("Stop! (F2)"));
+		pbStart->setToolTip(tr("Stop exersise"));
+		pbStart->setIcon(QIcon(":/icons/process-stop.svg"));
+
+		player->start();
+	}
+	pbStart->setEnabled(true);
+	pbStart->setShortcut(QKeySequence("F2"));
 }
 
-void MainWindow::displayTicks(int ticks)
+void MainWindow::stopWorkout()
 {
-	auto seconds = (ticks + 999) / 1000;
-	auto minutes = seconds / 60;
-	seconds %= 60;
-	if (displayTens && stage == Stage::Count)
+	if (player)
 	{
-		auto tens = ((ticks + 99) / 100) % 10;
-		auto text = QString("%1:%2.%3").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0')).arg(tens);
-		lcdTimer->display(text);
+		player->stop();
+		player = nullptr;
+
+		pbStart->setText(tr("Start! (F2)"));
+		pbStart->setToolTip(tr("Start exersise"));
+		pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
+		pbStart->setShortcut(QKeySequence("F2"));
+	}
+}
+
+
+void MainWindow::loadWorkouts()
+{
+	QFile file { Application::instanse()->getConfigFileName(workoutsFileName) };
+	if (file.open(QIODevice::ReadOnly))
+	{
+		QByteArray buf = file.readAll();
+		auto doc = QJsonDocument::fromJson(buf);
+		workouts->setJson(doc.object());
 	}
 	else
 	{
-		auto text = QString("%1:%2").arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
-		lcdTimer->display(text);
+		workouts->createDefaultWorkouts();
 	}
 }
 
-void MainWindow::loadSounds()
+void MainWindow::saveWorkouts()
 {
-	QDir dir(Application::instanse()->getSoundsDir());
-	tickSound->setSource(QUrl::fromLocalFile(dir.filePath("bink.wav")));
-	metronomSound->setSource(QUrl::fromLocalFile(dir.filePath("tick.wav")));
-	startSound->setSource(QUrl::fromLocalFile(dir.filePath("start.wav")));
+	QFile file { Application::instanse()->getConfigFileName(workoutsFileName) };
+	if (!file.open(QIODevice::WriteOnly))
+	{
+		qCritical().noquote() << tr("MainWindow::saveWorkouts() - error writing to file %1.").arg(file.fileName());
+		return;
+	}
+	QJsonDocument jsonDocument(workouts->getJson().toObject());
+	file.write(jsonDocument.toJson());
 }
 
-void MainWindow::startExersise()
+void MainWindow::setActiveWorkout(std::shared_ptr<Workout> newWorkout)
 {
-	pbStart->setText(tr("Stop! (F2)"));
-	pbStart->setToolTip(tr("Stop exersise"));
-	pbStart->setIcon(QIcon(":/icons/process-stop.svg"));
-
-	lcdAttempts->display("0");
-
-	preCounter = sbCountdown->value() * 1000;
-	auto minutes = sbRunTime->value();
-	if (!minutes)
-		minutes = 10;
-	counter = minutes * 60 * 1000;
-
-	attemptsCount = 0;
-	metronomTicks = cbMetronom->isChecked() ? sbMetronom->value() : 0;
-	if (metronomTicks)
+	stopWorkout();
+	workout = newWorkout;
+	if (workout)
 	{
-		metronomStep = counter / metronomTicks;
-		nextMetronomTicks = counter - (metronomStep * 2) / 3; // first tick after 2/3 of interval
-	}
-
-	if (preCounter)
-	{
-		stage = Stage::PreCount;
-		displayTicks(preCounter);
-		tickSound->play();
-		nextCountdownTicks = preCounter - 1000;
+		labelWorkoutCaption->setText(workout->getTitle());
 	}
 	else
 	{
-		stage = Stage::Count;
-		displayTicks(counter);
+		labelWorkoutCaption->setText(tr("NO WORKOUT SELECTED"));
 	}
-}
-
-void MainWindow::stopExersise()
-{
-	stage = Stage::Idle;
-	pbStart->setText(tr("Start! (F2)"));
-	pbStart->setToolTip(tr("Start exersise"));
-	pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
-	displayTicks(0);
 }
 
 void MainWindow::logMessage(QString const& message)
 {
 	qDebug() << message;
-}
-
-void MainWindow::timerFunction()
-{
-	auto currentTicks = QDateTime::currentMSecsSinceEpoch();
-	auto ticks = currentTicks - previousTicks;
-	previousTicks = currentTicks;
-
-	if (startHit)
-	{
-		if (stage == Stage::Idle)
-		{
-			startExersise();
-		}
-		else
-		{
-			stopExersise();
-		}
-		startHit = false;
-		pbStart->setEnabled(true);
-		pbStart->setShortcut(QKeySequence("F2"));
-		return;
-	}
-
-	switch (stage)
-	{
-	case Stage::Idle:
-		break;
-
-	case Stage::PreCount:
-		preCounter -= ticks;
-		if (preCounter > 0)
-		{
-			if (preCounter < nextCountdownTicks)
-			{
-				nextCountdownTicks -= 1000;
-				tickSound->play();
-			}
-			displayTicks(preCounter);
-		}
-		else
-		{
-			startSound->play();
-			stage = Stage::Count;
-			displayTicks(counter);
-		}
-		break;
-
-	case Stage::Count:
-		counter -= ticks;
-		if (counter > 0)
-		{
-			if (metronomTicks && counter < nextMetronomTicks)
-			{
-				lcdAttempts->display(QString("%1").arg(++attemptsCount));
-				nextMetronomTicks -= metronomStep;
-				metronomSound->play();
-			}
-			displayTicks(counter);
-		}
-		else
-		{
-			stage = Stage::Done;
-		}
-		break;
-
-	case Stage::Done:
-		startSound->play();
-		displayTicks(0);
-		stage = Stage::Idle;
-		break;
-	}
 }
 
 void MainWindow::keyPressEvent(QKeyEvent* event)

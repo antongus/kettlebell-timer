@@ -17,30 +17,36 @@
 
 Config config;
 
-namespace
-{
-const QString sectionSounds    = QStringLiteral("sounds");
-const QString varcountdownSoundFileName          = QStringLiteral("countdownSound");
-const QString varStartSoundFileName              = QStringLiteral("startSound");
-const QString varFinishSoundFileName             = QStringLiteral("finishSound");
-const QString varMetronomSoundFileName           = QStringLiteral("metronomSound");
-}
+static constexpr char SectionName_workout[]    = "workout";
+static constexpr char SectionName_sounds[]     = "sounds";
+
+static constexpr char VarName_workoutIndex[] = "workoutIndex";
+static constexpr char VarName_pauseSound[]   = "pauseSound";
+static constexpr char VarName_startSound[]   = "startSound";
+static constexpr char VarName_tickSound[]    = "tickSound";
+static constexpr char VarName_stopSound[]    = "stopSound";
 
 void Config::fromJson(QJsonObject const& conf)
 {
-	const QJsonObject soundsSettings = conf[sectionSounds].toObject();
-	countdownSoundFileName = soundsSettings[varcountdownSoundFileName].toString().trimmed();
-	startSoundFileName = soundsSettings[varStartSoundFileName].toString().trimmed();
-	finishSoundFileName = soundsSettings[varFinishSoundFileName].toString().trimmed();
-	metronomSoundFileName = soundsSettings[varMetronomSoundFileName].toString().trimmed();
+	const QJsonObject soundsSettings = conf[SectionName_sounds].toObject();
+	pauseTickSoundFileName = soundsSettings[VarName_pauseSound].toString("bink.wav").trimmed();
+	startSoundFileName = soundsSettings[VarName_startSound].toString("start.wav").trimmed();
+	finishSoundFileName = soundsSettings[VarName_stopSound].toString("start.wav").trimmed();
+	attemptTickSoundFileName = soundsSettings[VarName_tickSound].toString("tick.wav").trimmed();
+	const QJsonObject workoutSettings = conf[SectionName_workout].toObject();
+	workoutIndex = workoutSettings[VarName_workoutIndex].toInt(0);
 }
 
 void Config::toJson(QJsonObject& conf)
 {
-	QJsonObject soundSettings = conf[sectionSounds].toObject();
-	soundSettings[varcountdownSoundFileName] = countdownSoundFileName;
-	soundSettings[varStartSoundFileName] = startSoundFileName;
-	soundSettings[varFinishSoundFileName] = finishSoundFileName;
-	soundSettings[varMetronomSoundFileName] = metronomSoundFileName;
-	conf[sectionSounds] = soundSettings;
+	QJsonObject soundSettings = conf[SectionName_sounds].toObject();
+	soundSettings[VarName_pauseSound] = pauseTickSoundFileName;
+	soundSettings[VarName_startSound] = startSoundFileName;
+	soundSettings[VarName_stopSound] = finishSoundFileName;
+	soundSettings[VarName_tickSound] = attemptTickSoundFileName;
+	conf[SectionName_sounds] = soundSettings;
+
+	QJsonObject workoutSettings = conf[SectionName_workout].toObject();
+	workoutSettings[VarName_workoutIndex] = workoutIndex;
+	conf[SectionName_workout] = workoutSettings;
 }

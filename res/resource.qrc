@@ -17,5 +17,11 @@
         <file>icons/archive.svg</file>
         <file>icons/next.svg</file>
         <file>icons/previous.svg</file>
+        <file>icons/pause.svg</file>
+        <file>icons/checkmark.svg</file>
+        <file>icons/add_step.svg</file>
+        <file>icons/delete_step.svg</file>
+        <file>icons/down.svg</file>
+        <file>icons/up.svg</file>
     </qresource>
 </RCC>

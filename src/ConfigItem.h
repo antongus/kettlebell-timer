@@ -1,7 +1,7 @@
 /**
-*  @file Config.h
+*  @file ConfigItem.h
 *
-*  Settings structure
+*  Item with JSON configuration (abstract class)
 *
 *  Copyright 2019 Anton B. Gusev
 *
@@ -13,20 +13,14 @@
 
 #pragma once
 
-#include <QString>
+#include <QJsonValue>
 
-class QJsonObject;
-
-struct Config
+class ConfigItem
 {
-	int workoutIndex;
-	QString pauseTickSoundFileName;
-	QString startSoundFileName;
-	QString finishSoundFileName;
-	QString attemptTickSoundFileName;
+public:
+	ConfigItem() = default;
+	virtual ~ConfigItem() = default;
 
-	void fromJson(QJsonObject const& conf);
-	void toJson(QJsonObject& conf);
+	virtual QJsonValue getJson() const = 0;
+	virtual void setJson(QJsonValue const& conf) = 0;
 };
-
-extern Config config;

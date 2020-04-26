@@ -1,7 +1,7 @@
 /**
-*  @file Config.h
+*  @file ItemWithId.h
 *
-*  Settings structure
+*  ItemWithId class - for creation of objects with unique ID
 *
 *  Copyright 2019 Anton B. Gusev
 *
@@ -13,20 +13,14 @@
 
 #pragma once
 
-#include <QString>
-
-class QJsonObject;
-
-struct Config
+struct ItemWithId
 {
-	int workoutIndex;
-	QString pauseTickSoundFileName;
-	QString startSoundFileName;
-	QString finishSoundFileName;
-	QString attemptTickSoundFileName;
-
-	void fromJson(QJsonObject const& conf);
-	void toJson(QJsonObject& conf);
+	ItemWithId()
+	{
+		static int nextId { 1 };
+		id = nextId++;
+	}
+	int getId() const { return id; }
+private:
+	int id;
 };
-
-extern Config config;
