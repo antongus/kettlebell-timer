@@ -55,6 +55,7 @@ private:
 		InitialPause,    //!< initial pause
 		Leg,             //!< step leg
 		LegPause,        //!< pause before next leg
+		Finishing,       //!< playing "finish" sound at the end of program
 		Done,            //!< done
 	};
 

@@ -30,7 +30,7 @@ public:
 		ticks -= delta;
 		if (ticks > 0)
 		{
-			if (ticks < nextTicks)
+			if (ticks <= nextTicks)
 			{
 				nextTicks -= step;
 				return true;

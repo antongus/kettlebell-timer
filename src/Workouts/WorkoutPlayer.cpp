@@ -67,7 +67,7 @@ void WorkoutPlayer::timerFunction()
 		updateTicks(timeCounter.getTicks());
 		if (stepAttempts) // need to count attempts
 		{
-			if (timeCounter.getTicks() < nextAttemptTicks)
+			if (timeCounter.getTicks() <= nextAttemptTicks)
 			{
 				emit displayAttempts(QString("%1").arg(++attemptCounter));
 				nextAttemptTicks -= ticksPerAttempt;
@@ -106,6 +106,15 @@ void WorkoutPlayer::timerFunction()
 		}
 		break;
 
+	case Stage::Finishing:
+		timeCounter.update(ticks);
+		if (timeCounter.isElapsed())
+		{
+			stop();
+			emit done();
+		}
+		break;
+
 	case Stage::Done:
 		sounds->playFinish();
 		updateTicks(0);
@@ -136,10 +145,14 @@ void WorkoutPlayer::startNextStep()
 	// try to get next step...
 	step = workout->getStep(currentStep++);
 
-	if (!step)  // no next step - done
+	if (!step)  // no next step - play finish sound
 	{
-		stop();
-		emit done();
+		sounds->playFinish();
+		// start countdown timer for finish delay
+		timeCounter.start(2 * 1000);
+
+		// switch stage
+		stage = Stage::Finishing;
 		return;
 	}
 
