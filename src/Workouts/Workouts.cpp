@@ -138,5 +138,4 @@ void Workouts::createDefaultWorkouts()
 	step->setRoundAttempts(4);
 	step->setRoundCount(8);
 	step->setRestTime(10);
-
 }

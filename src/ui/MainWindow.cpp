@@ -39,9 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
 	setupUi(this);
 
-	// hide settings (not fully implemented yet)
-//	tbSettings->setVisible(false);
-
 	loadStyleSheet();
 	loadConfig();
 
