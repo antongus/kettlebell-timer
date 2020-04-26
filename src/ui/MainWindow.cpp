@@ -82,6 +82,12 @@ void MainWindow::loadConfig()
 		auto doc = QJsonDocument::fromJson(buf);
 		config.fromJson(doc.object());
 	}
+	else
+	{
+		// create and default config
+		config.fromJson(QJsonObject());
+		saveConfig();
+	}
 }
 
 void MainWindow::saveConfig()
