@@ -106,103 +106,103 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="123"/>
+        <location filename="../../src/ui/MainWindow.ui" line="150"/>
         <source>Select workout...</source>
         <translation>Выбрать программу...</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="126"/>
-        <location filename="../../src/ui/MainWindow.ui" line="339"/>
-        <location filename="../../src/ui/MainWindow.ui" line="362"/>
-        <location filename="../../src/ui/MainWindow.ui" line="452"/>
+        <location filename="../../src/ui/MainWindow.ui" line="153"/>
+        <location filename="../../src/ui/MainWindow.ui" line="352"/>
+        <location filename="../../src/ui/MainWindow.ui" line="375"/>
+        <location filename="../../src/ui/MainWindow.ui" line="465"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="45"/>
-        <location filename="../../src/ui/MainWindow.cpp" line="235"/>
+        <location filename="../../src/ui/MainWindow.ui" line="54"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="238"/>
         <source>NO WORKOUT SELECTED</source>
         <translation>НЕ ВЫБРАНА</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="61"/>
+        <location filename="../../src/ui/MainWindow.ui" line="70"/>
         <source>STAGE:</source>
         <translation>ЭТАП:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="77"/>
+        <location filename="../../src/ui/MainWindow.ui" line="86"/>
         <source>WORKOUT:</source>
         <translation>ПРОГРАММА:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="87"/>
-        <location filename="../../src/ui/MainWindow.ui" line="113"/>
+        <location filename="../../src/ui/MainWindow.ui" line="105"/>
+        <location filename="../../src/ui/MainWindow.ui" line="140"/>
         <source>---</source>
         <translation>---</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="103"/>
+        <location filename="../../src/ui/MainWindow.ui" line="121"/>
         <source>STEP:</source>
         <translation>ШАГ:</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="245"/>
+        <location filename="../../src/ui/MainWindow.ui" line="258"/>
         <source>ATTEMPTS</source>
         <translation>СЧЁТ</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="336"/>
+        <location filename="../../src/ui/MainWindow.ui" line="349"/>
         <source>Settings</source>
         <translation>Настройки</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="359"/>
+        <location filename="../../src/ui/MainWindow.ui" line="372"/>
         <source>Edit workouts</source>
         <translation>Редактирование программ</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="449"/>
+        <location filename="../../src/ui/MainWindow.ui" line="462"/>
         <source>About</source>
         <translation>О программе</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="413"/>
-        <location filename="../../src/ui/MainWindow.cpp" line="190"/>
+        <location filename="../../src/ui/MainWindow.ui" line="426"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="193"/>
         <source>Start! (F2)</source>
         <translation>Старт! (F2)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="159"/>
+        <location filename="../../src/ui/MainWindow.ui" line="179"/>
         <source>TIMER</source>
         <translation>ТАЙМЕР</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.ui" line="426"/>
+        <location filename="../../src/ui/MainWindow.ui" line="439"/>
         <source>F2</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cpp" line="95"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="98"/>
         <source>MainWindow::saveConfig() - error writing to file %1.</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cpp" line="173"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="176"/>
         <source>Stop! (F2)</source>
         <translation>Стоп! (F2)</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cpp" line="174"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="177"/>
         <source>Stop exersise</source>
         <translation>Закончить упражнение</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cpp" line="191"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="194"/>
         <source>Start exersise</source>
         <translation>Начать упражнение</translation>
     </message>
     <message>
-        <location filename="../../src/ui/MainWindow.cpp" line="218"/>
+        <location filename="../../src/ui/MainWindow.cpp" line="221"/>
         <source>MainWindow::saveWorkouts() - error writing to file %1.</source>
         <translation>MainWindow::saveWorkouts() - ошибка записи в файл %1.</translation>
     </message>
@@ -225,64 +225,59 @@ p, li { white-space: pre-wrap; }
         <translation>Шаги программы</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="440"/>
         <location filename="../../src/ui/WorkoutEditor.ui" line="450"/>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="512"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="460"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="502"/>
         <source> s</source>
         <translation> сек</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="405"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="415"/>
         <source>Step settings</source>
         <translation>Параметры шага</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="426"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="436"/>
         <source>Work time</source>
         <translation>Время работы</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="433"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="443"/>
         <source>Repeat step</source>
         <translation>Повторять шаг</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="457"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="467"/>
         <source>Rest time</source>
         <translation>Время отдыха</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="464"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="474"/>
         <source> times</source>
         <translation> раз</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="471"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="481"/>
         <source>Attempts per step</source>
         <translation>Счётчик попыток</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="491"/>
-        <source>Start</source>
-        <translation>Старт</translation>
-    </message>
-    <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="519"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="495"/>
         <source>Delay before start</source>
         <translation>Пауза перед стартом</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="529"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="408"/>
         <source>Step title</source>
         <translation>Название шага</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="590"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="566"/>
         <source>Save changes</source>
         <translation>Сохранить программы</translation>
     </message>
     <message>
-        <location filename="../../src/ui/WorkoutEditor.ui" line="643"/>
+        <location filename="../../src/ui/WorkoutEditor.ui" line="619"/>
         <source>Cancel changes</source>
         <translation>Отмена</translation>
     </message>
@@ -366,17 +361,17 @@ p, li { white-space: pre-wrap; }
         <translation>ОТДЫХ</translation>
     </message>
     <message>
-        <location filename="../../src/Workouts/WorkoutPlayer.cpp" line="169"/>
+        <location filename="../../src/Workouts/WorkoutPlayer.cpp" line="182"/>
         <source>DELAY BEFORE STEP START</source>
         <translation>ПАУЗА ПЕРЕД СТАРТОМ</translation>
     </message>
     <message>
-        <location filename="../../src/Workouts/WorkoutPlayer.cpp" line="192"/>
+        <location filename="../../src/Workouts/WorkoutPlayer.cpp" line="205"/>
         <source>WORK (ROUND %1 OF %2)</source>
         <translation>РАБОТА (РАУНД %1 ИЗ %2)</translation>
     </message>
     <message>
-        <location filename="../../src/Workouts/WorkoutPlayer.cpp" line="197"/>
+        <location filename="../../src/Workouts/WorkoutPlayer.cpp" line="210"/>
         <source>WORK</source>
         <translation>РАБОТА</translation>
     </message>
@@ -403,15 +398,25 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Workouts</name>
     <message>
-        <location filename="../../src/Workouts/Workouts.cpp" line="126"/>
-        <location filename="../../src/Workouts/Workouts.cpp" line="133"/>
+        <location filename="../../src/Workouts/Workouts.cpp" line="128"/>
+        <location filename="../../src/Workouts/Workouts.cpp" line="135"/>
         <source>Tabata</source>
         <translation>Табата</translation>
     </message>
     <message>
-        <location filename="../../src/Workouts/Workouts.cpp" line="127"/>
+        <location filename="../../src/Workouts/Workouts.cpp" line="129"/>
         <source>Warmup</source>
         <translation>Разминка</translation>
+    </message>
+    <message>
+        <location filename="../../src/Workouts/Workouts.cpp" line="142"/>
+        <source>Kettlebell snatch 200</source>
+        <translation>Рывок гири 200</translation>
+    </message>
+    <message>
+        <location filename="../../src/Workouts/Workouts.cpp" line="143"/>
+        <source>Snatch</source>
+        <translation>Рывок</translation>
     </message>
 </context>
 </TS>
