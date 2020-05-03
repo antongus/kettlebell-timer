@@ -459,6 +459,9 @@ border-color: gray;
                  <property name="suffix">
                   <string> s</string>
                  </property>
+                 <property name="maximum">
+                  <number>999</number>
+                 </property>
                 </widget>
                </item>
                <item row="3" column="0">
@@ -500,6 +503,9 @@ border-color: gray;
                 <widget class="QSpinBox" name="sbStartDelay">
                  <property name="suffix">
                   <string> s</string>
+                 </property>
+                 <property name="maximum">
+                  <number>999</number>
                  </property>
                 </widget>
                </item>
