@@ -54,7 +54,9 @@ private:
 	void editWorkouts();
 	void saveWorkouts();
 
-	void startStopClicked();
+	void startPauseClicked();
+	void pauseWorkout();
+	void resumeWorkouot();
 	void stopWorkout();
 	void displayTicks(int ticks);
 
