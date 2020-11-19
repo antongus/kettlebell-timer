@@ -23,5 +23,6 @@
         <file>icons/delete_step.svg</file>
         <file>icons/down.svg</file>
         <file>icons/up.svg</file>
+        <file>icons/stop.svg</file>
     </qresource>
 </RCC>
