@@ -403,7 +403,7 @@ color: lightgreen;
            </spacer>
           </item>
           <item>
-           <widget class="QPushButton" name="pbStart">
+           <widget class="QPushButton" name="pbStartPause">
             <property name="sizePolicy">
              <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
               <horstretch>0</horstretch>
@@ -427,7 +427,7 @@ color: lightgreen;
             </property>
             <property name="icon">
              <iconset resource="../../res/resource.qrc">
-              <normaloff>:/icons/stopwatch.svg</normaloff>:/icons/stopwatch.svg</iconset>
+              <normaloff>:/icons/play.svg</normaloff>:/icons/play.svg</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -445,6 +445,48 @@ color: lightgreen;
           </item>
           <item>
            <spacer name="horizontalSpacer_5">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeType">
+             <enum>QSizePolicy::Fixed</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>8</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+          <item>
+           <widget class="QToolButton" name="tbStop">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="toolTip">
+             <string>Stop (F4)</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../res/resource.qrc">
+              <normaloff>:/icons/stop.svg</normaloff>:/icons/stop.svg</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>38</width>
+              <height>38</height>
+             </size>
+            </property>
+            <property name="shortcut">
+             <string>F4</string>
+            </property>
+            <property name="autoRaise">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_7">
             <property name="orientation">
              <enum>Qt::Horizontal</enum>
             </property>
@@ -490,7 +532,7 @@ color: lightgreen;
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <tabstops>
-  <tabstop>pbStart</tabstop>
+  <tabstop>pbStartPause</tabstop>
  </tabstops>
  <resources>
   <include location="../../res/resource.qrc"/>

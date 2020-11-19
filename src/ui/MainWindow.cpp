@@ -151,20 +151,27 @@ void MainWindow::connectHandlers()
 	});
 
 	connect(tbSettings, &QToolButton::clicked, this, &MainWindow::editConfig);
-	connect(pbStart, &QPushButton::clicked, this, &MainWindow::startStopClicked);
+	connect(pbStartPause, &QPushButton::clicked, this, &MainWindow::startPauseClicked);
 	connect(tbEditWorkouts, &QToolButton::clicked, this, &MainWindow::editWorkouts);
 	connect(tbSelectWorkout, &QToolButton::clicked, this, &MainWindow::selectWorkout);
+	connect(tbStop, &QToolButton::clicked, this, &MainWindow::stopWorkout);
 }
 
-void MainWindow::startStopClicked()
+void MainWindow::startPauseClicked()
 {
-	pbStart->setEnabled(false);
+	pbStartPause->setEnabled(false);
 	if (player)
 	{
-		stopWorkout();
+		if (!player->isPaused())
+			pauseWorkout();
+		else
+			resumeWorkouot();
+
+//		stopWorkout();
 	}
 	else if (workout)
 	{
+		tbStop->setEnabled(true);
 		player = std::make_shared<WorkoutPlayer>(workout);
 		auto p = player.get();
 		connect(p, &WorkoutPlayer::displayTicks, [&](QString text){ lcdTimer->display(text); });
@@ -173,14 +180,38 @@ void MainWindow::startStopClicked()
 		connect(p, &WorkoutPlayer::displayStage, [&](QString text){ labelStageCaption->setText(text); });
 		connect(p, &WorkoutPlayer::done, this, &MainWindow::stopWorkout);
 
-		pbStart->setText(tr("Stop! (F2)"));
-		pbStart->setToolTip(tr("Stop exersise"));
-		pbStart->setIcon(QIcon(":/icons/process-stop.svg"));
+		pbStartPause->setText(tr("Pause (F2)"));
+		pbStartPause->setToolTip(tr("Pause exersise"));
+		pbStartPause->setIcon(QIcon(":/icons/pause.svg"));
 
 		player->start();
 	}
-	pbStart->setEnabled(true);
-	pbStart->setShortcut(QKeySequence("F2"));
+	pbStartPause->setEnabled(true);
+	pbStartPause->setShortcut(QKeySequence("F2"));
+}
+
+void MainWindow::pauseWorkout()
+{
+	if (player)
+	{
+		player->pause();
+
+		pbStartPause->setText(tr("Resume (F2)"));
+		pbStartPause->setToolTip(tr("Resume exersise"));
+		pbStartPause->setIcon(QIcon(":/icons/play.svg"));
+	}
+}
+
+void MainWindow::resumeWorkouot()
+{
+	if (player)
+	{
+		player->resume();
+
+		pbStartPause->setText(tr("Pause (F2)"));
+		pbStartPause->setToolTip(tr("Pause exersise"));
+		pbStartPause->setIcon(QIcon(":/icons/pause.svg"));
+	}
 }
 
 void MainWindow::stopWorkout()
@@ -190,11 +221,12 @@ void MainWindow::stopWorkout()
 		player->stop();
 		player = nullptr;
 
-		pbStart->setText(tr("Start! (F2)"));
-		pbStart->setToolTip(tr("Start exersise"));
-		pbStart->setIcon(QIcon(":/icons/stopwatch.svg"));
-		pbStart->setShortcut(QKeySequence("F2"));
+		pbStartPause->setText(tr("Start! (F2)"));
+		pbStartPause->setToolTip(tr("Start exersise"));
+		pbStartPause->setIcon(QIcon(":/icons/play.svg"));
+		pbStartPause->setShortcut(QKeySequence("F2"));
 	}
+	tbStop->setEnabled(false);
 }
 
 
