@@ -48,6 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
 	setActiveWorkout(workouts->getWorkout(static_cast<unsigned>(config.workoutIndex)));
 
 	connectHandlers();
+	pbStartPause->setFocus();
 }
 
 MainWindow::~MainWindow()
@@ -188,6 +189,7 @@ void MainWindow::startPauseClicked()
 	}
 	pbStartPause->setEnabled(true);
 	pbStartPause->setShortcut(QKeySequence("F2"));
+	pbStartPause->setFocus();
 }
 
 void MainWindow::pauseWorkout()
