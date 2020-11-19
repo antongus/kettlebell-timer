@@ -39,6 +39,19 @@ void WorkoutPlayer::stop()
 	emit displayStage(tr("---"));
 }
 
+void WorkoutPlayer::pause()
+{
+	paused = true;
+	timer->stop();
+}
+
+void WorkoutPlayer::resume()
+{
+	paused = false;
+	previousTicks = QDateTime::currentMSecsSinceEpoch() - 1;
+	timer->start(timerStepMilliseconds);
+}
+
 void WorkoutPlayer::timerFunction()
 {
 	auto currentTicks = QDateTime::currentMSecsSinceEpoch();

@@ -27,6 +27,8 @@ class WorkoutPlayer : public QObject
 public:
 	explicit WorkoutPlayer(std::shared_ptr<Workout> workout, QObject *parent = nullptr);
 
+	bool isPaused() const noexcept { return paused; }
+
 signals:
 	void displayTicks(QString text);
 	void displayAttempts(QString text);
@@ -37,6 +39,8 @@ signals:
 public slots:
 	void start();
 	void stop();
+	void pause();
+	void resume();
 
 private:
 	static constexpr int timerStepMilliseconds { 10 };
@@ -61,6 +65,7 @@ private:
 
 	Stage stage { Stage::Idle };
 	qint64 previousTicks;
+	bool paused { false };
 
 	CountdownTimer timeCounter;
 
